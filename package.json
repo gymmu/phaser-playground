@@ -1,0 +1,23 @@
+{
+  "name": "phaser-playground",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "lint": "prettier --check .",
+    "lint-fix": "prettier --write .",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "^3.0.3",
+    "vite-node": "^2.1.4"
+  },
+  "dependencies": {
+    "vite": "^5.2.6"
+  }
+}
