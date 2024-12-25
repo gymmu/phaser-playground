@@ -1,4 +1,11 @@
 {
+	"[gymmu] Import Phaser": {
+		"scope": "javascript",
+		"prefix": "ip",
+		"body": [
+			"import Phaser from \"phaser\""
+		]
+	},
 	"[gymmu] Print to console": {
 		"scope": "javascript,typescript",
 		"prefix": "log",
