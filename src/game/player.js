@@ -1,6 +1,6 @@
 import Phaser from "phaser"
 
-export default class Player extends Phaser.GameObjects.Sprite {
+export default class Player extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, number) {
     super(scene, x, y, "player")
     this.setOrigin(0.5)
@@ -14,6 +14,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.health = 10
     this.body.mass = 10
     this.body.setDragY = 10
+    this.body.setDragX = 10
 
     this.setControls()
   }
@@ -24,13 +25,16 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
   update(timestep, delta) {
     if (this.cursor.left.isDown) {
-      this.x -= 5
+      this.body.setVelocityX(-100)
     }
     if (this.cursor.right.isDown) {
-      this.x += 5
+      this.body.setVelocityX(100)
     }
-    if (this.cursor.space.isDown) {
-      this.body.setVelocityY(-300)
+    if (this.cursor.right.isUp && this.cursor.left.isUp) {
+      this.body.setVelocityX(0)
+    }
+    if (this.cursor.space.isDown && this.body.onFloor()) {
+      this.body.setVelocityY(-250)
     }
   }
 }

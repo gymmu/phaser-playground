@@ -11,7 +11,7 @@ export default class Intro extends Phaser.Scene {
   }
 
   preload() {
-    this.platformGroup = this.add.group()
+    //this.platformGroup = this.add.group()
     // Load the assets here
     this.SPACE = this.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.SPACE,
@@ -19,6 +19,8 @@ export default class Intro extends Phaser.Scene {
   }
 
   create() {
+    this.platforms = this.add.group()
+    //this.physics.add.staticGroup()
     // Create the level here
     this.player = new Player(this, 100, 200)
     for (let i = 0; i < this.NUM_PLATTFORMS; i++) {
@@ -27,16 +29,10 @@ export default class Intro extends Phaser.Scene {
         32 * Phaser.Math.Between(0, 20),
         32 * Phaser.Math.Between(0, 15),
       )
-      this.platformGroup.add(new_plattform)
+      this.platforms.add(new_plattform)
     }
 
-    this.physics.add.collider(
-      this.player,
-      this.platformGroup,
-      this.hitFloor,
-      () => true,
-      this,
-    )
+    this.physics.add.collider(this.platforms, this.player)
   }
 
   update() {
@@ -44,7 +40,7 @@ export default class Intro extends Phaser.Scene {
     if (this.player) this.player.update()
   }
 
-  hitFloor() {
+  hitFloor(platform, player) {
     console.log("Hit floor")
   }
 }
