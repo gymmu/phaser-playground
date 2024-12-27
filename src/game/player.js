@@ -8,6 +8,36 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.body.collideWorldBounds = true
 
     this.setControls()
+
+    this.scene.anims.create({
+      key: "player_idle",
+      frames: this.scene.anims.generateFrameNumbers("player", {
+        start: 1,
+        end: 1,
+      }),
+      frameRate: 10,
+      repeat: -1,
+    })
+
+    this.scene.anims.create({
+      key: "player_right",
+      frames: this.scene.anims.generateFrameNumbers("player", {
+        start: 6,
+        end: 8,
+      }),
+      frameRate: 10,
+      repeat: -1,
+    })
+
+    this.scene.anims.create({
+      key: "player_left",
+      frames: this.scene.anims.generateFrameNumbers("player", {
+        start: 3,
+        end: 5,
+      }),
+      frameRate: 10,
+      repeat: -1,
+    })
   }
 
   setControls() {
@@ -19,10 +49,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     const { left, right, space } = this.cursor
     if (left.isDown) {
       body.setVelocityX(-100)
+      this.anims.play("player_left", true)
     } else if (right.isDown) {
       this.body.setVelocityX(100)
+      this.anims.play("player_right", true)
     } else {
       this.body.setVelocityX(0)
+      this.anims.play("player_idle", true)
     }
     if (space.isDown && this.body.onFloor()) {
       this.body.setVelocityY(-250)

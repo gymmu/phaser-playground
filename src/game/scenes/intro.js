@@ -13,6 +13,11 @@ export default class Intro extends Phaser.Scene {
   preload() {
     //this.platformGroup = this.add.group()
     // Load the assets here
+    this.load.spritesheet("player", "./assets/player.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    })
+
     this.SPACE = this.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.SPACE,
     )
