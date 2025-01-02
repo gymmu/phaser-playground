@@ -6,6 +6,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.scene.add.existing(this)
     this.scene.physics.add.existing(this, false)
     this.body.collideWorldBounds = true
+    this.setOrigin(0, 0)
 
     this.setControls()
 
@@ -45,6 +46,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   update() {
+    console.log("p update")
     const { body } = this
     const { left, right, space } = this.cursor
     if (left.isDown) {

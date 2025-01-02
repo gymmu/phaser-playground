@@ -1,6 +1,5 @@
 import Phaser from "phaser"
 import Player from "../player"
-import Plattform from "../plattform"
 
 export default class Intro extends Phaser.Scene {
   obstacles
@@ -20,6 +19,11 @@ export default class Intro extends Phaser.Scene {
     })
 
     this.load.image("tileset", "./assets/ground.png")
+    // this.load.atlas(
+    //   "pickups",
+    //   "./assets/ground.png",
+    //   "./assets/atlas/ground.json",
+    // )
     this.load.tilemapTiledJSON("map", "./assets/maps/level-01.json")
 
     this.SPACE = this.input.keyboard.addKey(
@@ -31,21 +35,11 @@ export default class Intro extends Phaser.Scene {
     this.loadMap()
 
     // Create the level here
-    this.player = new Player(this, 100, 200)
-
     this.physics.add.collider(this.player, this.obstacles)
-    this.physics.add.overlap(
-      this.player,
-      this.decorations,
-      this.pickUp,
-      () => true,
-      this,
-    )
   }
 
   pickUp(actor, item) {
     if (actor === this.player) {
-      //console.log("Item", item)
     }
 
     //item.disableBody(true, true)
@@ -69,12 +63,16 @@ export default class Intro extends Phaser.Scene {
     this.obstacles = map.createLayer(1, tiles, 0, 0)
     this.obstacles.setCollisionByProperty({ collide: true })
 
-    this.decorations = map.createLayer(2, tiles, 0, 0)
-    this.decorations.setCollisionByProperty({ pickup: true })
+    // map.createFromObjects("Items", {
+    //   name: "mushrooms",
+    //   classType: Plattform,
+    // })
 
-    map.createFromObjects("Items", {
-      name: "mushrooms",
-      classType: Plattform,
-    })
+    const spawnPoint = map.findObject(
+      "SpawnPoints",
+      (obj) => obj.name === "SpawnPlayer",
+    )
+
+    this.player = new Player(this, spawnPoint.x, spawnPoint.y)
   }
 }

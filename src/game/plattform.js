@@ -1,13 +1,13 @@
 import Phaser from "phaser"
 
-export default class Plattform extends Phaser.GameObjects.Rectangle {
+export default class Plattform extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
-    super(scene, x, y, 32 * Phaser.Math.Between(1, 4), 32, 0xff0000)
+    super(scene, x, y, "pickups", 0)
     scene.add.existing(this)
     scene.physics.add.existing(this)
     this.body.setAllowGravity(false)
     this.body.setImmovable(true)
 
-    console.log("Hello")
+    this.texture.get("mushroom")
   }
 }
