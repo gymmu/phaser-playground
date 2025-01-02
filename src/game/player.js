@@ -46,7 +46,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   update() {
-    console.log("p update")
     const { body } = this
     const { left, right, space } = this.cursor
     if (left.isDown) {

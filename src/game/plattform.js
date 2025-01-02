@@ -2,12 +2,13 @@ import Phaser from "phaser"
 
 export default class Plattform extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
-    super(scene, x, y, "pickups", 0)
-    scene.add.existing(this)
-    scene.physics.add.existing(this)
+    super(scene, x, y, "pickups", "mushroom")
+    this.scene.add.existing(this)
+    //this.scene.textures.setTexture("tileset", "mushroom")
+    this.scene.physics.add.existing(this)
     this.body.setAllowGravity(false)
     this.body.setImmovable(true)
 
-    this.texture.get("mushroom")
+    this.setOrigin(0, 0)
   }
 }

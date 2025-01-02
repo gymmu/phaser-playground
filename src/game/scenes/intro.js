@@ -1,5 +1,6 @@
 import Phaser from "phaser"
 import Player from "../player"
+import Plattform from "../plattform"
 
 export default class Intro extends Phaser.Scene {
   obstacles
@@ -19,11 +20,11 @@ export default class Intro extends Phaser.Scene {
     })
 
     this.load.image("tileset", "./assets/ground.png")
-    // this.load.atlas(
-    //   "pickups",
-    //   "./assets/ground.png",
-    //   "./assets/atlas/ground.json",
-    // )
+    this.load.atlas(
+      "pickups",
+      "./assets/ground.png",
+      "./assets/atlas/ground.json",
+    )
     this.load.tilemapTiledJSON("map", "./assets/maps/level-01.json")
 
     this.SPACE = this.input.keyboard.addKey(
@@ -61,18 +62,21 @@ export default class Intro extends Phaser.Scene {
     const tiles = map.addTilesetImage("ground", "tileset")
     const background = map.createLayer(0, tiles, 0, 0)
     this.obstacles = map.createLayer(1, tiles, 0, 0)
-    this.obstacles.setCollisionByProperty({ collide: true })
-
-    // map.createFromObjects("Items", {
-    //   name: "mushrooms",
-    //   classType: Plattform,
-    // })
+    this.obstacles.setCollisionByProperty({ collides: true })
 
     const spawnPoint = map.findObject(
       "SpawnPoints",
       (obj) => obj.name === "SpawnPlayer",
     )
-
     this.player = new Player(this, spawnPoint.x, spawnPoint.y)
+
+    const mushrooms = map.filterObjects(
+      "Items",
+      (obj) => obj.name === "Mushroom",
+    )
+    mushrooms.forEach((mushroom) => {
+      const pl = new Plattform(this, mushroom.x, mushroom.y)
+      this.physics.collide(pl, this.player, this.pickUp, () => true, this)
+    })
   }
 }
