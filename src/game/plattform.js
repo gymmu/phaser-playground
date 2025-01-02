@@ -7,5 +7,7 @@ export default class Plattform extends Phaser.GameObjects.Rectangle {
     scene.physics.add.existing(this)
     this.body.setAllowGravity(false)
     this.body.setImmovable(true)
+
+    console.log("Hello")
   }
 }
