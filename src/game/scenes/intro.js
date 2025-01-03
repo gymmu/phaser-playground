@@ -1,6 +1,6 @@
 import Phaser from "phaser"
 import Player from "../player"
-import Mushroom from "../plattform"
+import Mushroom from "../mushroom"
 import Cave from "../cave"
 
 export default class Intro extends Phaser.Scene {
@@ -69,14 +69,13 @@ export default class Intro extends Phaser.Scene {
     map.createLayer(0, tiles, 0, 0)
     this.obstacles = map.createLayer(1, tiles, 0, 0)
 
+    createObjects(this, map, "Items", "Mushroom", Mushroom, this.items)
+    createObjects(this, map, "Doors", "Cave", Cave, this.items)
     const spawnPoint = map.findObject(
       "SpawnPoints",
       (obj) => obj.name === "SpawnPlayer",
     )
     this.player = new Player(this, spawnPoint.x, spawnPoint.y)
-
-    createObjects(this, map, "Items", "Mushroom", Mushroom, this.items)
-    createObjects(this, map, "Doors", "Cave", Cave, this.items)
   }
 }
 

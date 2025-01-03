@@ -9,5 +9,7 @@ export default class Mushroom extends Phaser.Physics.Arcade.Sprite {
     this.body.setImmovable(true)
 
     this.setOrigin(0, 0)
+    this.setSize(16, 16)
+    this.setOffset(16, 16)
   }
 }

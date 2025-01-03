@@ -9,5 +9,6 @@ export default class Cave extends Phaser.Physics.Arcade.Sprite {
     this.body.setImmovable(true)
 
     this.setOrigin(0, 0)
+    this.setSize(32, 4)
   }
 }
