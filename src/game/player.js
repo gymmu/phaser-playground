@@ -10,6 +10,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.setSize(24, 24, false)
     this.setOffset(4, 8)
 
+    this.hp = 10
+    this.maxHp = 100
+
     this.setControls()
 
     this.scene.anims.create({
@@ -98,5 +101,14 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     if (isIdle) {
       this.anims.play("player_idle", true)
     }
+  }
+
+  heal(value) {
+    if (value == null) value = 0
+    this.hp = this.hp + value
+    if (this.hp > this.maxHp) {
+      this.hp = this.mapHp
+    }
+    console.log(this.hp)
   }
 }

@@ -91,6 +91,8 @@ export default class Intro extends HelperScene {
   }
 
   pickUp(actor, item) {
+    const { restoreHP } = item.props
+    actor.heal(restoreHP)
     item.destroy()
   }
 
