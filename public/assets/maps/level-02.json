@@ -67,8 +67,8 @@
                  "properties":[
                         {
                          "name":"goToWorld",
-                         "type":"int",
-                         "value":1
+                         "type":"string",
+                         "value":"level-01"
                         }],
                  "rotation":0,
                  "type":"",

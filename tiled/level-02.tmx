@@ -46,7 +46,7 @@
  <objectgroup id="5" name="Doors">
   <object id="5" name="Cave" gid="7" x="512" y="320" width="32" height="32">
    <properties>
-    <property name="goToWorld" type="int" value="1"/>
+    <property name="goToWorld" value="level-01"/>
    </properties>
   </object>
  </objectgroup>

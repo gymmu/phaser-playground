@@ -4,31 +4,21 @@ import Mushroom from "../mushroom"
 import Cave from "../cave"
 import HelperScene from "./helper-scene"
 
-export default class Intro extends HelperScene {
-  obstacles
-  shapeGraphics
+/**
+ * Spiellogik für das Level02.
+ */
+export default class Level02 extends HelperScene {
+  player
+  items
+  doors
 
   constructor() {
-    super({ key: "game" })
-    this.player = null
-    this.items = null
+    super({ key: "level-02" })
   }
 
   preload() {
     // Load the assets here
-    this.load.spritesheet("player", "./assets/player.png", {
-      frameWidth: 32,
-      frameHeight: 32,
-    })
-
-    this.load.image("tileset", "./assets/ground_extruded.png")
-    this.load.atlas(
-      "pickups",
-      "./assets/ground.png",
-      "./assets/atlas/ground.json",
-    )
-    this.load.atlas("doors", "./assets/ground.png", "./assets/atlas/doors.json")
-    this.load.tilemapTiledJSON("map", "./assets/maps/level-02.json")
+    this.load.tilemapTiledJSON("map-02", "./assets/maps/level-02.json")
 
     this.SPACE = this.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.SPACE,
@@ -70,7 +60,10 @@ export default class Intro extends HelperScene {
     item.destroy()
   }
 
-  enterDoor(actor, door) {}
+  enterDoor(actor, door) {
+    const { goToWorld } = door.props
+    this.scene.start(goToWorld)
+  }
 
   update() {
     // Updates for the game loop
@@ -78,7 +71,7 @@ export default class Intro extends HelperScene {
   }
 
   loadMap() {
-    const map = this.make.tilemap({ key: "map" })
+    const map = this.make.tilemap({ key: "map-02" })
     const tiles = map.addTilesetImage("ground_extruded", "tileset")
     map.createLayer(0, tiles, 0, 0)
     this.obstacles = map.createLayer(1, tiles, 0, 0)

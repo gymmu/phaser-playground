@@ -1,6 +1,8 @@
 import Phaser from "phaser"
 
-import Intro from "./scenes/intro.js"
+import Level01 from "./scenes/level-01.js"
+import Level02 from "./scenes/level-02.js"
+import LoadingScene from "./scenes/loading-scene.js"
 
 const config = {
   type: Phaser.AUTO,
@@ -11,7 +13,7 @@ const config = {
   width: 640,
   height: 480,
   parent: "game-canvas",
-  scene: Intro,
+  scene: [LoadingScene, Level01, Level02],
   physics: {
     default: "arcade",
     arcade: {

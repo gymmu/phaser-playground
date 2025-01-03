@@ -29,17 +29,17 @@
          "y":0
         }, 
         {
-         "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 2, 2, 2, 2, 2, 0,
-            0, 0, 0, 6, 0, 0, 6, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 5, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0,
+         "data":[0, 2, 8, 8, 8, 8, 0, 8, 8, 8, 8, 5, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 2, 2, 2, 2, 6, 0, 6, 5, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 6, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 6, 0, 6, 2, 2, 2, 6, 6, 5, 6, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 6, 6, 5, 5, 5, 5, 0, 0, 0, 6, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 5, 0, 0, 0, 2, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 5, 0, 0, 0, 2, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 5, 0, 0, 0, 2, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -51,6 +51,35 @@
          "type":"tilelayer",
          "visible":true,
          "width":20,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":5,
+         "name":"Doors",
+         "objects":[
+                {
+                 "gid":7,
+                 "height":32,
+                 "id":7,
+                 "name":"Cave",
+                 "properties":[
+                        {
+                         "name":"goToWorld",
+                         "type":"int",
+                         "value":2
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":192,
+                 "y":32
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
          "x":0,
          "y":0
         }, 
@@ -82,16 +111,88 @@
          "name":"Items",
          "objects":[
                 {
+                 "gid":4,
+                 "height":32,
+                 "id":8,
+                 "name":"Flower",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":416,
+                 "y":192
+                }, 
+                {
+                 "gid":4,
+                 "height":32,
+                 "id":9,
+                 "name":"Flower",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":256,
+                 "y":64
+                }, 
+                {
+                 "gid":4,
+                 "height":32,
+                 "id":10,
+                 "name":"Flower",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":288,
+                 "y":64
+                }, 
+                {
+                 "gid":4,
+                 "height":32,
+                 "id":11,
+                 "name":"Flower",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":320,
+                 "y":64
+                }, 
+                {
                  "gid":3,
                  "height":32,
-                 "id":4,
+                 "id":12,
                  "name":"Mushroom",
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":480,
-                 "y":320
+                 "x":128,
+                 "y":64
+                }, 
+                {
+                 "gid":3,
+                 "height":32,
+                 "id":13,
+                 "name":"Mushroom",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":96,
+                 "y":64
+                }, 
+                {
+                 "gid":3,
+                 "height":32,
+                 "id":14,
+                 "name":"Mushroom",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":64,
+                 "y":64
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -99,8 +200,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":5,
- "nextobjectid":7,
+ "nextlayerid":6,
+ "nextobjectid":15,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.0",
@@ -109,12 +210,12 @@
         {
          "columns":4,
          "firstgid":1,
-         "image":"..\/ground.png",
-         "imageheight":64,
-         "imagewidth":128,
-         "margin":0,
-         "name":"ground",
-         "spacing":0,
+         "image":"..\/ground_extruded.png",
+         "imageheight":68,
+         "imagewidth":136,
+         "margin":1,
+         "name":"ground_extruded",
+         "spacing":2,
          "tilecount":8,
          "tileheight":32,
          "tiles":[
@@ -138,6 +239,15 @@
                 }, 
                 {
                  "id":5,
+                 "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":7,
                  "properties":[
                         {
                          "name":"collides",

@@ -7,15 +7,35 @@
     "expandedProjectPaths": [
     ],
     "fileStates": {
+        "ground.tsx": {
+            "scaleInEditor": 1
+        },
         "ground_extruded.tsx": {
             "dynamicWrapping": false
         },
         "level-01.tmx": {
+            "expandedObjectLayers": [
+                3,
+                4
+            ],
             "scale": 1.613515625,
-            "selectedLayer": 3,
+            "selectedLayer": 4,
             "viewCenter": {
                 "x": 286.64116593231006,
                 "y": 276.41504866121136
+            }
+        },
+        "level-02.tmx": {
+            "expandedObjectLayers": [
+                3,
+                5,
+                4
+            ],
+            "scale": 1.613515625,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 527.7296276569989,
+                "y": 335.91245823851256
             }
         }
     },
@@ -28,8 +48,9 @@
     "openFiles": [
     ],
     "project": "new.tiled-project",
-    "property.type": "int",
+    "property.type": "string",
     "recentFiles": [
+        "ground.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.margin": 1,
