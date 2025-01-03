@@ -1,12 +1,8 @@
-import Phaser from "phaser"
+import StaticObject from "./staticObject"
 
-export default class Mushroom extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene, x, y) {
-    super(scene, x, y - 32, "pickups", "mushroom")
-    this.scene.add.existing(this)
-    this.scene.physics.add.existing(this)
-    this.body.setAllowGravity(false)
-    this.body.setImmovable(true)
+export default class Mushroom extends StaticObject {
+  constructor(scene, x, y, properties) {
+    super(scene, x, y, "pickups", "mushroom", properties)
 
     this.setOrigin(0, 0)
     this.setSize(16, 16)
