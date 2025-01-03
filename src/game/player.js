@@ -14,58 +14,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.maxHp = 100
 
     this.setControls()
-
-    this.createAnimations()
-  }
-
-  createAnimations() {
-    this.scene.anims.create({
-      key: "player_idle",
-      frames: this.scene.anims.generateFrameNumbers("player", {
-        start: 1,
-        end: 1,
-      }),
-      frameRate: 10,
-      repeat: -1,
-    })
-
-    this.scene.anims.create({
-      key: "player_right",
-      frames: this.scene.anims.generateFrameNumbers("player", {
-        start: 6,
-        end: 8,
-      }),
-      frameRate: 10,
-      repeat: -1,
-    })
-
-    this.scene.anims.create({
-      key: "player_left",
-      frames: this.scene.anims.generateFrameNumbers("player", {
-        start: 3,
-        end: 5,
-      }),
-      frameRate: 10,
-      repeat: -1,
-    })
-    this.scene.anims.create({
-      key: "player_up",
-      frames: this.scene.anims.generateFrameNumbers("player", {
-        start: 9,
-        end: 11,
-      }),
-      frameRate: 10,
-      repeat: -1,
-    })
-    this.scene.anims.create({
-      key: "player_down",
-      frames: this.scene.anims.generateFrameNumbers("player", {
-        start: 0,
-        end: 2,
-      }),
-      frameRate: 10,
-      repeat: -1,
-    })
   }
 
   setControls() {
