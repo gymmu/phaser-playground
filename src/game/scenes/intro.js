@@ -9,6 +9,7 @@ export default class Intro extends Phaser.Scene {
   constructor() {
     super({ key: "game" })
     this.player = null
+    this.items = null
   }
 
   preload() {
@@ -33,17 +34,27 @@ export default class Intro extends Phaser.Scene {
   }
 
   create() {
+    this.items = this.add.group()
+
     this.loadMap()
 
     // Create the level here
     this.physics.add.collider(this.player, this.obstacles)
+    this.physics.add.overlap(
+      this.player,
+      this.items,
+      this.pickUp,
+      () => true,
+      this,
+    )
   }
 
   pickUp(actor, item) {
+    console.log("Overlap")
     if (actor === this.player) {
     }
 
-    //item.disableBody(true, true)
+    item.disableBody(true, true)
   }
 
   update() {
@@ -75,8 +86,7 @@ export default class Intro extends Phaser.Scene {
       (obj) => obj.name === "Mushroom",
     )
     mushrooms.forEach((mushroom) => {
-      const pl = new Plattform(this, mushroom.x, mushroom.y)
-      this.physics.collide(pl, this.player, this.pickUp, () => true, this)
+      this.items.add(new Plattform(this, mushroom.x, mushroom.y))
     })
   }
 }
