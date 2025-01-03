@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="13">
+ <editorsettings>
+  <export target="../public/assets/maps/map-level-02.json" format="json"/>
+ </editorsettings>
  <tileset firstgid="1" source="tileset.tsx"/>
  <layer id="1" name="Background" width="20" height="15">
   <data encoding="csv">
@@ -97,7 +100,7 @@
  <objectgroup id="5" name="Doors">
   <object id="1" name="Cave" gid="7" x="480" y="32" width="32" height="32">
    <properties>
-    <property name="goToWorld" value="level-01"/>
+    <property name="goToWorld" value="level-03"/>
    </properties>
   </object>
  </objectgroup>
