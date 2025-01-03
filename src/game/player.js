@@ -41,6 +41,24 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       frameRate: 10,
       repeat: -1,
     })
+    this.scene.anims.create({
+      key: "player_up",
+      frames: this.scene.anims.generateFrameNumbers("player", {
+        start: 9,
+        end: 11,
+      }),
+      frameRate: 10,
+      repeat: -1,
+    })
+    this.scene.anims.create({
+      key: "player_down",
+      frames: this.scene.anims.generateFrameNumbers("player", {
+        start: 0,
+        end: 2,
+      }),
+      frameRate: 10,
+      repeat: -1,
+    })
   }
 
   setControls() {
@@ -49,19 +67,36 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
   update() {
     const { body } = this
-    const { left, right, space } = this.cursor
+    const { left, right, up, down } = this.cursor
+    let isIdle = true
+
+    this.body.setVelocityX(0)
+    this.body.setVelocityY(0)
+
     if (left.isDown) {
       body.setVelocityX(-100)
-      this.anims.play("player_left", true)
-    } else if (right.isDown) {
-      this.body.setVelocityX(100)
-      this.anims.play("player_right", true)
-    } else {
-      this.body.setVelocityX(0)
-      this.anims.play("player_idle", true)
+      if (isIdle) this.anims.play("player_left", true)
+      isIdle = false
     }
-    if (space.isDown && this.body.onFloor()) {
-      this.body.setVelocityY(-250)
+    if (right.isDown) {
+      this.body.setVelocityX(100)
+      if (isIdle) this.anims.play("player_right", true)
+      isIdle = false
+    }
+
+    if (up.isDown) {
+      body.setVelocityY(-100)
+      if (isIdle) this.anims.play("player_up", true)
+      isIdle = false
+    }
+    if (down.isDown) {
+      body.setVelocityY(100)
+      if (isIdle) this.anims.play("player_down", true)
+      isIdle = false
+    }
+
+    if (isIdle) {
+      this.anims.play("player_idle", true)
     }
   }
 }
