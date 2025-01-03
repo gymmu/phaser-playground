@@ -7,7 +7,5 @@ export default class Cave extends StaticObject {
 
     this.setOrigin(0, 0)
     this.setSize(32, 4)
-
-    console.log(this.props)
   }
 }

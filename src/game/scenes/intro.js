@@ -23,7 +23,6 @@ class HelperScene extends Phaser.Scene {
     )
     if (objects != null) {
       objects.forEach((obj) => {
-        console.log(obj)
         targetGroup.add(new objectClass(this, obj.x, obj.y, obj.properties))
       })
     }
@@ -96,9 +95,7 @@ export default class Intro extends HelperScene {
     item.destroy()
   }
 
-  enterDoor(actor, door) {
-    console.log(door)
-  }
+  enterDoor(actor, door) {}
 
   update() {
     // Updates for the game loop
