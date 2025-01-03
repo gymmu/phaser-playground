@@ -1,7 +1,7 @@
 import Phaser from "phaser"
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene, x, y, number) {
+  constructor(scene, x, y) {
     super(scene, x, y, "player")
     this.scene.add.existing(this)
     this.scene.physics.add.existing(this, false)
