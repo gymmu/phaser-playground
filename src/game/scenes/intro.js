@@ -1,6 +1,7 @@
 import Phaser from "phaser"
 import Player from "../player"
 import Mushroom from "../plattform"
+import Cave from "../cave"
 
 export default class Intro extends Phaser.Scene {
   obstacles
@@ -13,7 +14,6 @@ export default class Intro extends Phaser.Scene {
   }
 
   preload() {
-    //this.platformGroup = this.add.group()
     // Load the assets here
     this.load.spritesheet("player", "./assets/player.png", {
       frameWidth: 32,
@@ -26,6 +26,7 @@ export default class Intro extends Phaser.Scene {
       "./assets/ground.png",
       "./assets/atlas/ground.json",
     )
+    this.load.atlas("doors", "./assets/ground.png", "./assets/atlas/doors.json")
     this.load.tilemapTiledJSON("map", "./assets/maps/level-02.json")
 
     this.SPACE = this.input.keyboard.addKey(
@@ -42,6 +43,7 @@ export default class Intro extends Phaser.Scene {
     this.cameras.main.startFollow(this.player)
 
     // Create the level here
+    this.obstacles.setCollisionByProperty({ collides: true })
     this.physics.add.collider(this.player, this.obstacles)
     this.physics.add.overlap(
       this.player,
@@ -61,18 +63,11 @@ export default class Intro extends Phaser.Scene {
     if (this.player) this.player.update()
   }
 
-  hitFloor(platform, player) {
-    console.log("Hit floor")
-  }
-
   loadMap() {
-    const map = this.make.tilemap({
-      key: "map",
-    })
+    const map = this.make.tilemap({ key: "map" })
     const tiles = map.addTilesetImage("ground_extruded", "tileset")
-    const background = map.createLayer(0, tiles, 0, 0)
+    map.createLayer(0, tiles, 0, 0)
     this.obstacles = map.createLayer(1, tiles, 0, 0)
-    this.obstacles.setCollisionByProperty({ collides: true })
 
     const spawnPoint = map.findObject(
       "SpawnPoints",
@@ -80,12 +75,25 @@ export default class Intro extends Phaser.Scene {
     )
     this.player = new Player(this, spawnPoint.x, spawnPoint.y)
 
-    const mushrooms = map.filterObjects(
-      "Items",
-      (obj) => obj.name === "Mushroom",
-    )
-    mushrooms.forEach((mushroom) => {
-      this.items.add(new Mushroom(this, mushroom.x, mushroom.y))
-    })
+    createObjects(this, map, "Items", "Mushroom", Mushroom, this.items)
+    createObjects(this, map, "Doors", "Cave", Cave, this.items)
   }
+}
+
+function createObjects(
+  scene,
+  map,
+  objectLayer,
+  objectName,
+  objectClass,
+  targetGroup,
+) {
+  const mushrooms = map.filterObjects(
+    objectLayer,
+    (obj) => obj.name === objectName,
+  )
+  mushrooms &&
+    mushrooms.forEach((mushroom) => {
+      targetGroup.add(new objectClass(scene, mushroom.x, mushroom.y))
+    })
 }
