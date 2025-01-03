@@ -3,6 +3,7 @@ import Player from "../player"
 import Mushroom from "../mushroom"
 import Cave from "../cave"
 import HelperScene from "./helper-scene"
+import Flower from "../flower"
 
 /**
  * Spiellogik für das Level02.
@@ -80,6 +81,7 @@ export default class Level02 extends HelperScene {
     this.obstacles = map.createLayer(1, tiles, 0, 0)
 
     this.createObjects(map, "Items", "Mushroom", Mushroom, this.items)
+    this.createObjects(map, "Items", "Flower", Flower, this.items)
     this.createObjects(map, "Doors", "Cave", Cave, this.doors)
     this.player = this.createSingleObject(
       map,
