@@ -20,13 +20,13 @@ export default class Intro extends Phaser.Scene {
       frameHeight: 32,
     })
 
-    this.load.image("tileset", "./assets/ground.png")
+    this.load.image("tileset", "./assets/ground_extruded.png")
     this.load.atlas(
       "pickups",
       "./assets/ground.png",
       "./assets/atlas/ground.json",
     )
-    this.load.tilemapTiledJSON("map", "./assets/maps/level-01.json")
+    this.load.tilemapTiledJSON("map", "./assets/maps/level-02.json")
 
     this.SPACE = this.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.SPACE,
@@ -37,6 +37,9 @@ export default class Intro extends Phaser.Scene {
     this.items = this.add.group()
 
     this.loadMap()
+
+    this.cameras.main.setSize(640, 480)
+    this.cameras.main.startFollow(this.player)
 
     // Create the level here
     this.physics.add.collider(this.player, this.obstacles)
@@ -66,7 +69,7 @@ export default class Intro extends Phaser.Scene {
     const map = this.make.tilemap({
       key: "map",
     })
-    const tiles = map.addTilesetImage("ground", "tileset")
+    const tiles = map.addTilesetImage("ground_extruded", "tileset")
     const background = map.createLayer(0, tiles, 0, 0)
     this.obstacles = map.createLayer(1, tiles, 0, 0)
     this.obstacles.setCollisionByProperty({ collides: true })

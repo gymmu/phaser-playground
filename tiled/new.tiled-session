@@ -7,6 +7,17 @@
     "expandedProjectPaths": [
     ],
     "fileStates": {
+        "ground_extruded.tsx": {
+            "dynamicWrapping": false
+        },
+        "level-01.tmx": {
+            "scale": 1.613515625,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 286.64116593231006,
+                "y": 276.41504866121136
+            }
+        }
     },
     "last.exportedFilePath": "/home/cedric/workspace/phaser-playground/public/assets/maps",
     "last.imagePath": "/home/cedric/workspace/phaser-playground/public/assets",
@@ -20,5 +31,7 @@
     "property.type": "bool",
     "recentFiles": [
     ],
-    "tileset.lastUsedFormat": "tsx"
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.margin": 1,
+    "tileset.spacing": 2
 }
