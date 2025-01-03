@@ -17,14 +17,10 @@ export default class Level01 extends HelperScene {
   }
 
   preload() {
-    // Load the assets here
+    // Hier muss nur noch die Karte für das Level geladen werden.
     this.load.tilemapTiledJSON(
       "map-level-01",
       "./assets/maps/map-level-01.json",
-    )
-
-    this.SPACE = this.input.keyboard.addKey(
-      Phaser.Input.Keyboard.KeyCodes.SPACE,
     )
   }
 
@@ -78,7 +74,7 @@ export default class Level01 extends HelperScene {
 
   loadMap() {
     const map = this.make.tilemap({ key: "map-level-01" })
-    const tiles = map.addTilesetImage("ground_extruded", "tileset")
+    const tiles = map.addTilesetImage("tileset")
     map.createLayer(0, tiles, 0, 0)
     this.obstacles = map.createLayer(1, tiles, 0, 0)
 

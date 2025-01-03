@@ -2,11 +2,11 @@
   "frames": [
     {
       "filename": "mushroom",
-      "frame": { "x": 64, "y": 0, "w": 32, "h": 32 }
+      "frame": { "x": 69, "y": 1, "w": 32, "h": 32 }
     },
     {
       "filename": "flower",
-      "frame": { "x": 96, "y": 0, "w": 32, "h": 32 }
+      "frame": { "x": 103, "y": 1, "w": 32, "h": 32 }
     }
   ]
 }
