@@ -44,7 +44,11 @@
 </data>
  </layer>
  <objectgroup id="5" name="Doors">
-  <object id="5" name="Cave" gid="7" x="512" y="320" width="32" height="32"/>
+  <object id="5" name="Cave" gid="7" x="512" y="320" width="32" height="32">
+   <properties>
+    <property name="goToWorld" type="int" value="1"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="3" name="SpawnPoints">
   <object id="1" name="SpawnPlayer" x="32" y="416"/>
@@ -52,6 +56,10 @@
  <objectgroup id="4" name="Items">
   <object id="2" name="Mushroom" gid="11" x="416" y="448" width="32" height="32"/>
   <object id="3" name="Mushroom" gid="11" x="256" y="448" width="32" height="32"/>
-  <object id="4" name="Mushroom" gid="11" x="160" y="352" width="32" height="32"/>
+  <object id="4" name="Mushroom" gid="11" x="160" y="352" width="32" height="32">
+   <properties>
+    <property name="restoreHP" type="int" value="10"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

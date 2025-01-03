@@ -1,14 +1,13 @@
 import Phaser from "phaser"
+import StaticObject from "./staticObject"
 
-export default class Cave extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene, x, y) {
-    super(scene, x, y - 32, "doors", "cave")
-    this.scene.add.existing(this)
-    this.scene.physics.add.existing(this)
-    this.body.setAllowGravity(false)
-    this.body.setImmovable(true)
+export default class Cave extends StaticObject {
+  constructor(scene, x, y, properties) {
+    super(scene, x, y, "doors", "cave", properties)
 
     this.setOrigin(0, 0)
     this.setSize(32, 4)
+
+    console.log(this.props)
   }
 }

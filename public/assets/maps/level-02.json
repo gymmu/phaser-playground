@@ -64,6 +64,12 @@
                  "height":32,
                  "id":5,
                  "name":"Cave",
+                 "properties":[
+                        {
+                         "name":"goToWorld",
+                         "type":"int",
+                         "value":1
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -133,6 +139,12 @@
                  "height":32,
                  "id":4,
                  "name":"Mushroom",
+                 "properties":[
+                        {
+                         "name":"restoreHP",
+                         "type":"int",
+                         "value":10
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,

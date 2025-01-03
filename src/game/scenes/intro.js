@@ -3,7 +3,34 @@ import Player from "../player"
 import Mushroom from "../mushroom"
 import Cave from "../cave"
 
-export default class Intro extends Phaser.Scene {
+class HelperScene extends Phaser.Scene {
+  constructor(options) {
+    super(options)
+  }
+
+  createSingleObject(map, objectLayer, objectName, objectClass) {
+    const spawnPoint = map.findObject(
+      objectLayer,
+      (obj) => obj.name === objectName,
+    )
+    return new objectClass(this, spawnPoint.x, spawnPoint.y)
+  }
+
+  createObjects(map, objectLayer, objectName, objectClass, targetGroup) {
+    const objects = map.filterObjects(
+      objectLayer,
+      (obj) => obj.name === objectName,
+    )
+    if (objects != null) {
+      objects.forEach((obj) => {
+        console.log(obj)
+        targetGroup.add(new objectClass(this, obj.x, obj.y, obj.properties))
+      })
+    }
+  }
+}
+
+export default class Intro extends HelperScene {
   obstacles
   shapeGraphics
 
@@ -36,6 +63,7 @@ export default class Intro extends Phaser.Scene {
 
   create() {
     this.items = this.add.group()
+    this.doors = this.add.group()
 
     this.loadMap()
 
@@ -52,10 +80,22 @@ export default class Intro extends Phaser.Scene {
       () => true,
       this,
     )
+
+    this.physics.add.overlap(
+      this.player,
+      this.doors,
+      this.enterDoor,
+      () => true,
+      this,
+    )
   }
 
   pickUp(actor, item) {
     item.destroy()
+  }
+
+  enterDoor(actor, door) {
+    console.log(door)
   }
 
   update() {
@@ -69,30 +109,13 @@ export default class Intro extends Phaser.Scene {
     map.createLayer(0, tiles, 0, 0)
     this.obstacles = map.createLayer(1, tiles, 0, 0)
 
-    createObjects(this, map, "Items", "Mushroom", Mushroom, this.items)
-    createObjects(this, map, "Doors", "Cave", Cave, this.items)
-    const spawnPoint = map.findObject(
+    this.createObjects(map, "Items", "Mushroom", Mushroom, this.items)
+    this.createObjects(map, "Doors", "Cave", Cave, this.doors)
+    this.player = this.createSingleObject(
+      map,
       "SpawnPoints",
-      (obj) => obj.name === "SpawnPlayer",
+      "SpawnPlayer",
+      Player,
     )
-    this.player = new Player(this, spawnPoint.x, spawnPoint.y)
   }
-}
-
-function createObjects(
-  scene,
-  map,
-  objectLayer,
-  objectName,
-  objectClass,
-  targetGroup,
-) {
-  const mushrooms = map.filterObjects(
-    objectLayer,
-    (obj) => obj.name === objectName,
-  )
-  mushrooms &&
-    mushrooms.forEach((mushroom) => {
-      targetGroup.add(new objectClass(scene, mushroom.x, mushroom.y))
-    })
 }
