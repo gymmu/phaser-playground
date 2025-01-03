@@ -9,21 +9,36 @@ export default class LoadingScene extends HelperScene {
     super({ key: "loading" })
   }
 
+  /**
+   * Mit dieser Methode werden alle Resourcen geladen die vom Spiel gebraucht
+   * werden. Hier werden alle Grafiken und auch Töne geladen. Diese können
+   * danach im ganzen Spiel verwendet werden.
+   */
   preload() {
-    // Load the assets here
+    // Lade das Spritesheet für den Spieler.
     this.load.spritesheet("player", "./assets/player.png", {
       frameWidth: 32,
       frameHeight: 32,
     })
 
-    this.load.image("tileset", "./assets/ground_extruded.png")
+    // Lade das Tileset für die Karten und die Objekte.
+    this.load.image("tileset", "./assets/tileset.png")
+
+    // Lade einen Atlas von einem Tileset. Damit können einzelne Kacheln aus
+    // einem Tileset definiert werden.
     this.load.atlas(
       "pickups",
-      "./assets/ground.png",
-      "./assets/atlas/ground.json",
+      "./assets/tileset.png",
+      "./assets/atlas/atlas-pickups.json",
     )
-    this.load.atlas("doors", "./assets/ground.png", "./assets/atlas/doors.json")
+    this.load.atlas(
+      "doors",
+      "./assets/tileset.png",
+      "./assets/atlas/atlas-doors.json",
+    )
 
+    // Wir möchten auf das Drücken der Leertaste reagieren können, daher müssen
+    // wir das hier registrieren.
     this.SPACE = this.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.SPACE,
     )

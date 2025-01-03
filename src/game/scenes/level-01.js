@@ -18,7 +18,10 @@ export default class Level01 extends HelperScene {
 
   preload() {
     // Load the assets here
-    this.load.tilemapTiledJSON("map", "./assets/maps/level-01.json")
+    this.load.tilemapTiledJSON(
+      "map-level-01",
+      "./assets/maps/map-level-01.json",
+    )
 
     this.SPACE = this.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.SPACE,
@@ -62,7 +65,10 @@ export default class Level01 extends HelperScene {
 
   enterDoor(actor, door) {
     console.log("Enter door to Level " + door.props.goToWorld)
-    this.scene.start("level-02")
+    const { goToWorld } = door.props
+    if (goToWorld != null) {
+      this.scene.start(goToWorld)
+    }
   }
 
   update() {
@@ -71,7 +77,7 @@ export default class Level01 extends HelperScene {
   }
 
   loadMap() {
-    const map = this.make.tilemap({ key: "map" })
+    const map = this.make.tilemap({ key: "map-level-01" })
     const tiles = map.addTilesetImage("ground_extruded", "tileset")
     map.createLayer(0, tiles, 0, 0)
     this.obstacles = map.createLayer(1, tiles, 0, 0)
