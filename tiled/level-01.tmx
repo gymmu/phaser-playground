@@ -46,6 +46,6 @@
   <object id="1" name="SpawnPlayer" x="384" y="256" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="4" name="Items">
-  <object id="4" name="Mushroom" gid="3" x="480" y="288" width="32" height="32"/>
+  <object id="4" name="Mushroom" gid="3" x="480" y="320" width="32" height="32"/>
  </objectgroup>
 </map>

@@ -1,6 +1,6 @@
 import Phaser from "phaser"
 import Player from "../player"
-import Plattform from "../plattform"
+import Mushroom from "../plattform"
 
 export default class Intro extends Phaser.Scene {
   obstacles
@@ -50,11 +50,7 @@ export default class Intro extends Phaser.Scene {
   }
 
   pickUp(actor, item) {
-    console.log("Overlap")
-    if (actor === this.player) {
-    }
-
-    item.disableBody(true, true)
+    item.destroy()
   }
 
   update() {
@@ -86,7 +82,7 @@ export default class Intro extends Phaser.Scene {
       (obj) => obj.name === "Mushroom",
     )
     mushrooms.forEach((mushroom) => {
-      this.items.add(new Plattform(this, mushroom.x, mushroom.y))
+      this.items.add(new Mushroom(this, mushroom.x, mushroom.y))
     })
   }
 }
