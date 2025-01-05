@@ -1,9 +1,4 @@
-import Phaser from "phaser"
-import Player from "../player"
-import Mushroom from "../mushroom"
-import Cave from "../cave"
-import HelperScene from "./helper-scene"
-import Flower from "../flower"
+import HelperScene from "../helper-scene"
 
 /**
  * Spiellogik für das Level02.

@@ -1,5 +1,4 @@
-import Phaser from "phaser"
-import StaticObject from "./staticObject"
+import StaticObject from "../staticObject"
 
 export default class Cave extends StaticObject {
   constructor(scene, x, y, properties) {

@@ -1,9 +1,9 @@
 import Phaser from "phaser"
 
-import Level01 from "./scenes/level-01.js"
-import Level02 from "./scenes/level-02.js"
+import Level01 from "./scenes/levels/level-01.js"
+import Level02 from "./scenes/levels/level-02.js"
 import LoadingScene from "./scenes/loading-scene.js"
-import Level03 from "./scenes/level-03.js"
+import Level03 from "./scenes/levels/level-03.js"
 
 const config = {
   type: Phaser.AUTO,

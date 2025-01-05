@@ -139,7 +139,7 @@
                  "gid":4,
                  "height":32,
                  "id":4,
-                 "name":"Flowers",
+                 "name":"Flower",
                  "properties":[
                         {
                          "name":"damageHp",
@@ -157,7 +157,7 @@
                  "gid":4,
                  "height":32,
                  "id":5,
-                 "name":"Flowers",
+                 "name":"Flower",
                  "properties":[
                         {
                          "name":"damageHp",
@@ -175,7 +175,7 @@
                  "gid":4,
                  "height":32,
                  "id":6,
-                 "name":"Flowers",
+                 "name":"Flower",
                  "properties":[
                         {
                          "name":"damageHp",

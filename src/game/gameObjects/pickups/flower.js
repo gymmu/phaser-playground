@@ -1,4 +1,4 @@
-import StaticObject from "./staticObject"
+import StaticObject from "../staticObject"
 
 export default class Flower extends StaticObject {
   constructor(scene, x, y, properties) {

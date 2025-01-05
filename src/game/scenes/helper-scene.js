@@ -1,8 +1,8 @@
 import Phaser from "phaser"
-import Mushroom from "../mushroom"
-import Flower from "../flower"
-import Cave from "../cave"
-import Player from "../player"
+import Mushroom from "../gameObjects/pickups/mushroom"
+import Flower from "../gameObjects/pickups/flower"
+import Cave from "../gameObjects/doors/cave"
+import Player from "../gameObjects/player/player"
 
 /**
  * Erweiterung einer Phaser.Scene mit praktischen Funktionen um Spielobjekte
@@ -25,6 +25,20 @@ export default class HelperScene extends Phaser.Scene {
     super(options)
   }
 
+  /**
+   * Hier werden alle Spiel-Objekte erstellt.
+   *
+   * Diese Methode lädt alle Elemente von der Karte und platziert die Elemente
+   * korrekt im Spielfeld. Es wird hier auch festgelegt was passiert wenn eine
+   * Kollision von 2 Elementen passiert. Also das einige Elemente blockieren und
+   * andere können aufgesammelt werden.
+   *
+   * Auch die Kamera wird eingestellt.
+   *
+   * @param {*} mapKey Welche Karte soll für diese Szene verwendet werden. Die
+   * Karte muss zuerst in der preload-Methode geladen werden, der Name der dort
+   * verwendet wurde, muss auch hier verwendet werden.
+   */
   create(mapKey) {
     this.items = this.add.group()
     this.doors = this.add.group()
@@ -33,21 +47,46 @@ export default class HelperScene extends Phaser.Scene {
     this.setupDefaultCollisions()
   }
 
+  /**
+   * Diese Methode lädt die Spielkarte für eine Szene.
+   *
+   * Die Methode wird direkt aus der `create`-Methode aufgerufen, da ist bereits
+   * beschrieben was alles erstellt wird.
+   *
+   * @param {*} mapKey Name der Karte die erstellt werden soll. Siehe auch hier
+   * die `create`-Methode.
+   */
   loadMap(mapKey) {
+    // Erstellt die Karte so wie sie in `mapKey` definiert ist.
     this.map = this.make.tilemap({ key: mapKey })
-    this.tiles = this.map.addTilesetImage("tileset")
-    this.map.createLayer(0, this.tiles, 0, 0)
-    this.obstacles = this.map.createLayer(1, this.tiles, 0, 0)
 
-    this.createObjects(this.map, "Items", "Mushroom", Mushroom, this.items)
-    this.createObjects(this.map, "Items", "Flower", Flower, this.items)
+    // Verwendet die Kacheln von "tileset" so wie es in **Tiled** verwendet wird.
+    this.tiles = this.map.addTilesetImage("tileset")
+
+    // Erstellt den "Background" Layer
+    this.map.createLayer("Background", this.tiles, 0, 0)
+
+    // Erstellt den "Obstacles" Layer. Hier kann der Spieler nicht durchlaufen.
+    this.obstacles = this.map.createLayer("Obstacles", this.tiles, 0, 0)
+
+    // Erstelle die einzelnen Objekte auf der Karte
+    this.createMapObjects()
+
+    // Erstelle die Türen
     this.createObjects(this.map, "Doors", "Cave", Cave, this.doors)
+
+    // Erstelle den Spieler
     this.player = this.createSingleObject(
       this.map,
       "SpawnPoints",
       "SpawnPlayer",
       Player,
     )
+  }
+
+  createMapObjects() {
+    this.createObjects(this.map, "Items", "Mushroom", Mushroom, this.items)
+    //this.createObjects(this.map, "Items", "Flower", Flower, this.items)
   }
 
   createCamera() {

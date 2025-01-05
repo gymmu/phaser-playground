@@ -1,4 +1,4 @@
-import HelperScene from "./helper-scene"
+import HelperScene from "../helper-scene"
 
 /**
  * Spiellogik für das Level01.

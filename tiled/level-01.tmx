@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="9">
+ <editorsettings>
+  <export target="../public/assets/maps/map-level-01.json" format="json"/>
+ </editorsettings>
  <tileset firstgid="1" source="tileset.tsx"/>
  <layer id="1" name="Background" width="20" height="15">
   <data encoding="csv">
@@ -58,17 +61,17 @@
     <property name="restoreHp" type="int" value="20"/>
    </properties>
   </object>
-  <object id="4" name="Flowers" gid="4" x="512" y="320" width="32" height="32">
+  <object id="4" name="Flower" gid="4" x="512" y="320" width="32" height="32">
    <properties>
     <property name="damageHp" type="int" value="20"/>
    </properties>
   </object>
-  <object id="5" name="Flowers" gid="4" x="512" y="224" width="32" height="32">
+  <object id="5" name="Flower" gid="4" x="512" y="224" width="32" height="32">
    <properties>
     <property name="damageHp" type="int" value="20"/>
    </properties>
   </object>
-  <object id="6" name="Flowers" gid="4" x="288" y="320" width="32" height="32">
+  <object id="6" name="Flower" gid="4" x="288" y="320" width="32" height="32">
    <properties>
     <property name="damageHp" type="int" value="20"/>
    </properties>
