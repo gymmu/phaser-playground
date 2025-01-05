@@ -1,9 +1,9 @@
-import HelperScene from "../helper-scene"
+import Base2DScene from "../base-2d-scene"
 
 /**
  * Spiellogik für das Level01.
  */
-export default class Level01 extends HelperScene {
+export default class Level01 extends Base2DScene {
   constructor() {
     super({ key: "level-01" })
   }

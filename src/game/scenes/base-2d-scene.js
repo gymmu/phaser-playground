@@ -8,7 +8,7 @@ import Player from "../gameObjects/player/player"
  * Erweiterung einer Phaser.Scene mit praktischen Funktionen um Spielobjekte
  * automatisch zu erstellen.
  */
-export default class HelperScene extends Phaser.Scene {
+export default class Base2DScene extends Phaser.Scene {
   map = null
   tiles = null
   obstacles = null
