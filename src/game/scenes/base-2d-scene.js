@@ -86,7 +86,7 @@ export default class Base2DScene extends Phaser.Scene {
 
   createMapObjects() {
     this.createObjects(this.map, "Items", "Mushroom", Mushroom, this.items)
-    //this.createObjects(this.map, "Items", "Flower", Flower, this.items)
+    this.createObjects(this.map, "Items", "Flower", Flower, this.items)
   }
 
   createCamera() {
@@ -97,6 +97,7 @@ export default class Base2DScene extends Phaser.Scene {
   setupDefaultCollisions() {
     this.obstacles.setCollisionByProperty({ collides: true })
     this.physics.add.collider(this.player, this.obstacles)
+    //this.physics.add.collider(this.player, this.doors)
     this.physics.add.overlap(
       this.player,
       this.items,
@@ -105,7 +106,7 @@ export default class Base2DScene extends Phaser.Scene {
       this,
     )
 
-    this.physics.add.overlap(
+    this.physics.add.collider(
       this.player,
       this.doors,
       this.enterDoor,
@@ -114,17 +115,43 @@ export default class Base2DScene extends Phaser.Scene {
     )
   }
 
+  /**
+   * Diese Methode wird immer dann aufgerufen, wenn der Spieler eine
+   * überscheidung mit einem Spielobjekt hat, das aufgenommen werden kann. Wir
+   * können hier bestimmen was in einem solchen fall passieren sollte. Die
+   * Parameter werden von Phaser in die Methode eingefügt, da haben wir keine
+   * direkte kontrolle darüber.
+   *
+   * Um die Funktionalität dieser Methode zu ändern, muss Sie in der
+   * abgeleiteten Klasse überschrieben werden. Standartmässig wird einfach das
+   * Objekt zerstörrt, mit dem eine kollision stattfindet.
+   *
+   * @param {*} actor Der Spieler der mit dem Objekt überschneidet.
+   * @param {*} item Das Objekt mit dem der Spieler eine überschneitung hat.
+   */
   pickUp(actor, item) {
-    const { restoreHP } = item.props
-    actor.heal(restoreHP)
     item.destroy()
   }
 
+  /**
+   * Diese Methode wird immer dann aufgerufen, wenn ein Spieler mit einer Türe
+   * kollidiert. Die Methode funktioniert sehr ähnlich wie `pickUp`.
+   *
+   * Standartmässig sollte eine Türe den Spieler in eine andere Szene bringen.
+   * Die Szene zu der ein Spieler gebracht wird, ist auf der Türe selber
+   * definiert und wird in **Tiled** gesetzt.
+   */
   enterDoor(actor, door) {
-    console.log("Enter door to Level " + door.props.goToWorld)
-    const { goToWorld } = door.props
-    if (goToWorld != null) {
+    const { goToWorld, needKey } = door.props
+    if (goToWorld == null) return
+    if (needKey == null) {
       this.scene.start(goToWorld)
+      return
+    }
+
+    if (actor.keys[needKey] > 0) {
+      this.scene.start(goToWorld)
+      return
     }
   }
 

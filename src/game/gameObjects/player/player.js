@@ -1,6 +1,8 @@
 import Phaser from "phaser"
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
+  keys = {}
+
   constructor(scene, x, y) {
     super(scene, x, y, "player")
     this.scene.add.existing(this)
@@ -61,6 +63,18 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     if (this.hp > this.maxHp) {
       this.hp = this.mapHp
     }
-    console.log(this.hp)
+  }
+
+  addKey(keyName) {
+    if (this.keys[keyName] == null) {
+      this.keys[keyName] = 1
+    } else {
+      this.keys[keyName] += 1
+    }
+  }
+
+  removeKey(keyName) {
+    if (this.keys[keyName] == null) return
+    this.keys[keyName] -= 1
   }
 }

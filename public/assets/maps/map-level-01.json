@@ -210,6 +210,11 @@
                          "name":"goToWorld",
                          "type":"string",
                          "value":"level-02"
+                        }, 
+                        {
+                         "name":"needKey",
+                         "type":"string",
+                         "value":"level-02"
                         }],
                  "rotation":0,
                  "type":"",
