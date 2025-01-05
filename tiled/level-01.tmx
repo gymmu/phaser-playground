@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="9">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="10">
  <editorsettings>
   <export target="../public/assets/maps/map-level-01.json" format="json"/>
  </editorsettings>
@@ -44,36 +44,43 @@
  </layer>
  <objectgroup id="3" name="SpawnPoints">
   <object id="8" name="SpawnPlayer" x="192" y="288"/>
+  <object id="9" name="NPC" x="416" y="224"/>
  </objectgroup>
  <objectgroup id="4" name="Items">
   <object id="1" name="Mushroom" gid="3" x="160" y="256" width="32" height="32">
    <properties>
+    <property name="damageHp" type="int" value="10"/>
     <property name="restoreHp" type="int" value="20"/>
    </properties>
   </object>
   <object id="2" name="Mushroom" gid="3" x="320" y="256" width="32" height="32">
    <properties>
+    <property name="damageHp" type="int" value="10"/>
     <property name="restoreHp" type="int" value="20"/>
    </properties>
   </object>
   <object id="3" name="Mushroom" gid="3" x="544" y="288" width="32" height="32">
    <properties>
+    <property name="damageHp" type="int" value="10"/>
     <property name="restoreHp" type="int" value="20"/>
    </properties>
   </object>
   <object id="4" name="Flower" gid="4" x="512" y="320" width="32" height="32">
    <properties>
     <property name="damageHp" type="int" value="20"/>
+    <property name="restoreHp" type="int" value="50"/>
    </properties>
   </object>
   <object id="5" name="Flower" gid="4" x="512" y="224" width="32" height="32">
    <properties>
     <property name="damageHp" type="int" value="20"/>
+    <property name="restoreHp" type="int" value="50"/>
    </properties>
   </object>
   <object id="6" name="Flower" gid="4" x="288" y="320" width="32" height="32">
    <properties>
     <property name="damageHp" type="int" value="20"/>
+    <property name="restoreHp" type="int" value="50"/>
    </properties>
   </object>
  </objectgroup>

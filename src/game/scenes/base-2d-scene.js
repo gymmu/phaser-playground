@@ -3,6 +3,7 @@ import Mushroom from "../gameObjects/pickups/mushroom"
 import Flower from "../gameObjects/pickups/flower"
 import Cave from "../gameObjects/doors/cave"
 import Player from "../gameObjects/player/player"
+import NPC from "../gameObjects/player/npc"
 
 /**
  * Erweiterung einer Phaser.Scene mit praktischen Funktionen um Spielobjekte
@@ -14,7 +15,9 @@ export default class Base2DScene extends Phaser.Scene {
   obstacles = null
   items = null
   doors = null
+  npcs = null
   player = null
+  text = null
 
   /**
    * Erstellt eine Instanz einer Phaser.Szene.
@@ -42,9 +45,16 @@ export default class Base2DScene extends Phaser.Scene {
   create(mapKey) {
     this.items = this.add.group()
     this.doors = this.add.group()
+    this.npcs = this.add.group()
     this.loadMap(mapKey)
     this.createCamera()
     this.setupDefaultCollisions()
+
+    // In dieser Scene werden Lebenspunkte und andere Dinge angezeigt.
+    this.scene.bringToTop("ui-scene")
+
+    // Wird verwendet um weitere Spielinformationen an den Entwickler zu geben.
+    this.scene.bringToTop("debug-scene")
   }
 
   /**
@@ -75,6 +85,9 @@ export default class Base2DScene extends Phaser.Scene {
     // Erstelle die Türen
     this.createObjects(this.map, "Doors", "Cave", Cave, this.doors)
 
+    // Erstelle die Gegner
+    this.createObjects(this.map, "SpawnPoints", "NPC", NPC, this.npcs)
+
     // Erstelle den Spieler
     this.player = this.createSingleObject(
       this.map,
@@ -97,7 +110,14 @@ export default class Base2DScene extends Phaser.Scene {
   setupDefaultCollisions() {
     this.obstacles.setCollisionByProperty({ collides: true })
     this.physics.add.collider(this.player, this.obstacles)
-    //this.physics.add.collider(this.player, this.doors)
+    this.physics.add.collider(
+      this.npcs,
+      this.obstacles,
+      this.npcCollideObstacles,
+      () => true,
+      this,
+    )
+    this.physics.add.collider(this.npcs, this.doors)
     this.physics.add.overlap(
       this.player,
       this.items,
@@ -113,6 +133,11 @@ export default class Base2DScene extends Phaser.Scene {
       () => true,
       this,
     )
+  }
+
+  npcCollideObstacles(npc, obstacle) {
+    if (npc == null) return
+    npc.move = "idle"
   }
 
   /**
@@ -158,6 +183,11 @@ export default class Base2DScene extends Phaser.Scene {
   update() {
     // Updates for the game loop
     if (this.player) this.player.update()
+    if (this.npcs) {
+      this.npcs.children.entries.forEach((npc) => {
+        npc.update()
+      })
+    }
   }
 
   /**

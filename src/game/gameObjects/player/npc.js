@@ -1,11 +1,11 @@
 import Phaser from "phaser"
-import EVENTS from "../../events"
 
-export default class Player extends Phaser.Physics.Arcade.Sprite {
-  keys = {}
+export default class NPC extends Phaser.Physics.Arcade.Sprite {
   hp = 10
   maxHp = 100
   #speed = 100
+  stepsLeft = 60
+  move = "left"
 
   constructor(scene, x, y) {
     super(scene, x, y, "player")
@@ -15,20 +15,18 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.setOrigin(0.5, 0.5)
     this.setSize(24, 24, false)
     this.setOffset(4, 8)
-
-    this.setControls()
   }
 
   /**
    * Setze die Geschwindigkeit des Spielers. Kann nicht grösser als 960 sein, da
    * der Spieler sonst durch die Spielobjekte geht. Kann auch nicht kleiner als
-   * 100 sein.
+   * 0 sein.
    *
    * @param {integer} value Die Geschwindigkeit der Spielers.
    */
   set speed(value) {
     this.#speed = Math.min(value, 960)
-    this.#speed = Math.max(100, this.#speed)
+    this.#speed = Math.max(0, this.#speed)
   }
 
   /** Geschwindigkeit des Spielers. */
@@ -36,35 +34,36 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     return this.#speed
   }
 
-  setControls() {
-    this.cursor = this.scene.input.keyboard.createCursorKeys()
-  }
-
   update() {
     const { body } = this
-    const { left, right, up, down } = this.cursor
     let isIdle = true
+
+    this.stepsLeft--
+    if (this.stepsLeft <= 0) {
+      this.move = getRandomDirection()
+      this.stepsLeft = 60 + Math.floor(Math.random() * 60)
+    }
 
     this.body.setVelocityX(0)
     this.body.setVelocityY(0)
 
-    if (left.isDown) {
+    if (this.move === "left") {
       body.setVelocityX(-this.speed)
       if (isIdle) this.anims.play("player_left", true)
       isIdle = false
     }
-    if (right.isDown) {
+    if (this.move === "right") {
       this.body.setVelocityX(this.speed)
       if (isIdle) this.anims.play("player_right", true)
       isIdle = false
     }
 
-    if (up.isDown) {
+    if (this.move === "up") {
       body.setVelocityY(-this.speed)
       if (isIdle) this.anims.play("player_up", true)
       isIdle = false
     }
-    if (down.isDown) {
+    if (this.move === "down") {
       body.setVelocityY(this.speed)
       if (isIdle) this.anims.play("player_down", true)
       isIdle = false
@@ -73,8 +72,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     if (isIdle) {
       this.anims.play("player_idle", true)
     }
-
-    EVENTS.emit("update-hp", this.hp)
   }
 
   heal(value) {
@@ -83,28 +80,21 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     if (this.hp > this.maxHp) {
       this.hp = this.mapHp
     }
-    EVENTS.emit("update-hp", this.hp)
   }
+}
 
-  damage(value) {
-    if (value == null) value = 0
-    this.hp = this.hp - value
-    if (this.hp <= 0) {
-      this.hp = 0
-    }
-    EVENTS.emit("update-hp", this.hp)
-  }
-
-  addKey(keyName) {
-    if (this.keys[keyName] == null) {
-      this.keys[keyName] = 1
-    } else {
-      this.keys[keyName] += 1
-    }
-  }
-
-  removeKey(keyName) {
-    if (this.keys[keyName] == null) return
-    this.keys[keyName] -= 1
+function getRandomDirection() {
+  const r = Math.floor(4 * Math.random())
+  switch (r) {
+    case 0:
+      return "left"
+    case 1:
+      return "right"
+    case 2:
+      return "up"
+    case 3:
+      return "down"
+    default:
+      return "idle"
   }
 }

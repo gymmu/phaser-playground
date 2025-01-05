@@ -62,6 +62,11 @@ export default class Level01 extends Base2DScene {
 
     if (item instanceof Flower) {
       this.player.addKey("level-02")
+      this.player.speed = this.player.speed + 100
+      this.player.heal(item.props.restoreHp || 0)
+    } else if (item instanceof Mushroom) {
+      this.player.speed -= 100
+      this.player.damage(item.props.damageHp || 0)
     }
   }
 }

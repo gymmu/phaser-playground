@@ -69,6 +69,17 @@
                  "width":0,
                  "x":192,
                  "y":288
+                }, 
+                {
+                 "height":0,
+                 "id":9,
+                 "name":"NPC",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":416,
+                 "y":224
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -88,6 +99,11 @@
                  "name":"Mushroom",
                  "properties":[
                         {
+                         "name":"damageHp",
+                         "type":"int",
+                         "value":10
+                        }, 
+                        {
                          "name":"restoreHp",
                          "type":"int",
                          "value":20
@@ -106,6 +122,11 @@
                  "name":"Mushroom",
                  "properties":[
                         {
+                         "name":"damageHp",
+                         "type":"int",
+                         "value":10
+                        }, 
+                        {
                          "name":"restoreHp",
                          "type":"int",
                          "value":20
@@ -123,6 +144,11 @@
                  "id":3,
                  "name":"Mushroom",
                  "properties":[
+                        {
+                         "name":"damageHp",
+                         "type":"int",
+                         "value":10
+                        }, 
                         {
                          "name":"restoreHp",
                          "type":"int",
@@ -145,6 +171,11 @@
                          "name":"damageHp",
                          "type":"int",
                          "value":20
+                        }, 
+                        {
+                         "name":"restoreHp",
+                         "type":"int",
+                         "value":50
                         }],
                  "rotation":0,
                  "type":"",
@@ -163,6 +194,11 @@
                          "name":"damageHp",
                          "type":"int",
                          "value":20
+                        }, 
+                        {
+                         "name":"restoreHp",
+                         "type":"int",
+                         "value":50
                         }],
                  "rotation":0,
                  "type":"",
@@ -181,6 +217,11 @@
                          "name":"damageHp",
                          "type":"int",
                          "value":20
+                        }, 
+                        {
+                         "name":"restoreHp",
+                         "type":"int",
+                         "value":50
                         }],
                  "rotation":0,
                  "type":"",
@@ -230,7 +271,7 @@
          "y":0
         }],
  "nextlayerid":6,
- "nextobjectid":9,
+ "nextobjectid":10,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.0",
