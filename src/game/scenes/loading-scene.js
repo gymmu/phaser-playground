@@ -1,10 +1,8 @@
 import Phaser from "phaser"
-import Base2DScene from "./base-2d-scene"
-
 /**
  * Spiellogik für das Level02.
  */
-export default class LoadingScene extends Base2DScene {
+export default class LoadingScene extends Phaser.Scene {
   constructor() {
     super({ key: "loading" })
   }
