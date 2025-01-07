@@ -1,24 +1,27 @@
+// Damit importieren wir die Game-Engine phaser
 import Phaser from "phaser"
-/**
- * Spiellogik für das Level02.
- */
+
+// Damit erstellen wir die Klasse für die Lade-Szene und übernehmen die Eigenschaften von `Phaser.Szene`.
+// Das müssen Sie noch nicht genau verstehen.
 export default class LoadingScene extends Phaser.Scene {
+  /**
+   * Das ist eine spezielle Methode die bei der Instanziierung der Klasse
+   * aufgerufen wird. Wir brauchen diese Methode hier, damit wir `Phaser`
+   * den Namen/Schlüssel für unsere Szene übergeben können, damit wir die
+   * Szene später selber aufrufen können.
+   */
   constructor() {
+    // Damit wir der Konstuktor von `Phaser.Scene` aufgerufen, und wir übergeben
+    // den Schlüssel/Namen.
     super({ key: "loading" })
   }
 
   /**
-   * Mit dieser Methode werden alle Resourcen geladen die vom Spiel gebraucht
-   * werden. Hier werden alle Grafiken und auch Töne geladen. Diese können
-   * danach im ganzen Spiel verwendet werden.
+   * Mit der `preload`-Methode werden alle Ressourcen wie Grafiken und Musik
+   * ins Spiel geladen. Das passiert noch vor der Erstellung der Szene, damit
+   * die Ressourcen dann im Game-Loop verwendet werden können.
    */
   preload() {
-    // Lade das Spritesheet für den Spieler.
-    this.load.spritesheet("player", "./assets/player.png", {
-      frameWidth: 32,
-      frameHeight: 32,
-    })
-
     // Lade das Tileset für die Karten und die Objekte.
     this.load.image("tileset", "./assets/tileset.png")
 
@@ -29,11 +32,6 @@ export default class LoadingScene extends Phaser.Scene {
       "./assets/tileset.png",
       "./assets/atlas/atlas-pickups.json",
     )
-    this.load.atlas(
-      "doors",
-      "./assets/tileset.png",
-      "./assets/atlas/atlas-doors.json",
-    )
 
     // Wir möchten auf das Drücken der Leertaste reagieren können, daher müssen
     // wir das hier registrieren.
@@ -42,67 +40,37 @@ export default class LoadingScene extends Phaser.Scene {
     )
   }
 
+  /**
+   * Auch diese Methode wird von `Phaser` automatisch aufgerufen. In dieser
+   * Methode erstellen wir alle Spielobjekte, die in der Szene verwendet werden.
+   * Auch diese Methode wird noch vor dem Game-Loop aufgerufen.
+   *
+   * Meistens wird in dieser Methode die Spielkarte oder ähnliches erstellt. Für
+   * die Lade-Szene brauchen wir aber nur einen Text.
+   */
   create() {
-    this.createAnimations()
+    // Damit erstellen wir ein Spielobjekt Text. Wir geben die Position in x und y
+    // an, und geben den Text der angezeigt werden soll an.
+    const text = this.add.text(320, 240, "Press SPACE to start the Game.")
 
-    this.add
-      .text(320, 240, "Press SPACE to start the Game.")
-      .setOrigin(0.5, 0.5)
+    // Damit setzen wir den Ankerpunkt von dem Textelement auf die Mitte des Elements.
+    // Würden wir das nicht machen, ist die obere lenke Ecke der Ankerpunkt, und es wird
+    // schwierig den Text zu zentrieren.
+    text.setOrigin(0.5, 0.5)
   }
 
+  /**
+   * Diese Methode gehört zum Game-Loop und sollte 60 mal pro Sekunde aufgerufen werden.
+   * In dieser Methode berechnen wir die Positionen von den Spielobjekten neu und reagieren
+   * auf Eingaben.
+   */
   update() {
+    // Wenn die Leertaste gedrückt wird, möchten wir darauf reagieren.
     if (this.SPACE.isDown) {
+      // Die Leertaste wurde gedrückt, jetzt möchten wir eine neue Szene laden.
+      // Das was wir hier übergeben, ist der Schlüssel/Name der Szene, so wie
+      // es im Konstruktor angegeben wurde.
       this.scene.start("level-00")
     }
-  }
-
-  createAnimations() {
-    this.anims.create({
-      key: "player_idle",
-      frames: this.anims.generateFrameNumbers("player", {
-        start: 1,
-        end: 1,
-      }),
-      frameRate: 10,
-      repeat: -1,
-    })
-
-    this.anims.create({
-      key: "player_right",
-      frames: this.anims.generateFrameNumbers("player", {
-        start: 6,
-        end: 8,
-      }),
-      frameRate: 10,
-      repeat: -1,
-    })
-
-    this.anims.create({
-      key: "player_left",
-      frames: this.anims.generateFrameNumbers("player", {
-        start: 3,
-        end: 5,
-      }),
-      frameRate: 10,
-      repeat: -1,
-    })
-    this.anims.create({
-      key: "player_up",
-      frames: this.anims.generateFrameNumbers("player", {
-        start: 9,
-        end: 11,
-      }),
-      frameRate: 10,
-      repeat: -1,
-    })
-    this.anims.create({
-      key: "player_down",
-      frames: this.anims.generateFrameNumbers("player", {
-        start: 0,
-        end: 2,
-      }),
-      frameRate: 10,
-      repeat: -1,
-    })
   }
 }
