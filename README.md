@@ -53,3 +53,12 @@ haben, bei dem man sich im Projekt einfach orientieren kann.
   Dabei müssen Sie den genauen Pfad für die Eingabe-Datei haben, also
   `asprite/tileset-winter.png` oder so ähnlich. und bei der Ausgabe-Datei muss
   dann folgendes hin `public/assets/tileset.winder.png`.
+
+## Erste Schritte
+
+Das Projekt ist leider noch nicht direkt Spielbereit. Sie müssen zuerst noch ein
+paar Schritte selber machen. Weil das Projekt einer sehr spezifischen Struktur
+folgt, ist es am besten wenn Sie die Schritte einfach von der
+[Webseite hier](https://gymmu.github.io/gym-inf/game) übernehemen. Lesen aber
+alles durch was Sie hier machen, Sie sollen später auch im Stande sein das ganze
+selber zu machen.
