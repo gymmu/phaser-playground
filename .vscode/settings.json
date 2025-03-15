@@ -42,7 +42,7 @@
   "files.autoSaveDelay": 2000,
   "git.autofetch": true,
   "git.autoStash": false,
-  "git.mergeEditor": true,
+  "git.mergeEditor": false,
   "git.enableSmartCommit": false,
   "git.suggestSmartCommit": false,
   "markdown.editor.pasteUrlAsFormattedLink.enabled": "smart",
