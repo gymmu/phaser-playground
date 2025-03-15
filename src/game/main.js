@@ -1,30 +1,38 @@
-// Auch hier müssen wir wieder unsere Game-Engine importieren.
 import Phaser from "phaser"
 
-// Hier können wir unsere eigenen Klassen importieren. Das ist die Datei die
-// Sie im letzten Beispiel geschrieben haben.
+import Level01 from "./scenes/levels/level-01.js"
+import Level02 from "./scenes/levels/level-02.js"
 import LoadingScene from "./scenes/loading-scene.js"
+import Level03 from "./scenes/levels/level-03.js"
+import UIScene from "./scenes/ui-scene.js"
+import DebugScene from "./scenes/debug-scene.js"
+import Level00 from "./scenes/levels/level-00.js"
 
-// Das hier ist die Konfiguration für das Spiel. Sie müssen nicht alle Teile
-// davon verstehen. Die meisten sind recht selbsterklärend.
 const config = {
   type: Phaser.AUTO,
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
-  width: 640, // Sollten möglichst vielfache von 32 sein, da unsere Tileset 32x32 Pixel gross sind.
-  height: 480, // Gleich wie bei width.
-  parent: "game-canvas", // Die ID von dem HTML-Element, in das das Spiel gezeichnet wird.
-  scene: [LoadingScene], // Die Szenen des Spiels, hier können noch weitere Szenen angehängt werden.
+  width: 640,
+  height: 480,
+  parent: "game-canvas",
+  scene: [
+    LoadingScene,
+    UIScene,
+    DebugScene,
+    Level00,
+    Level01,
+    Level02,
+    Level03,
+  ],
   physics: {
-    default: "arcade", // Eine einfache Physik die auf kollisionen testen kann.
+    default: "arcade",
     arcade: {
-      debug: true, // Zeichnet zusätzliche Informationen wie Geschwindigkeit und Hitboxes
-      gravity: { y: 0 }, // Keine Gravitation, da wir uns in alle 4 Richtungen bewegen möchten. Muss für Jump'n'Run geändert werden.
+      debug: true,
+      gravity: { y: 0 },
     },
   },
 }
 
-// Hier wird das Spiel erstellt, und startet mit der ersten Szenen in der Liste von `scene`.
 const game = new Phaser.Game(config)
