@@ -10,3 +10,4 @@
 - [ ] Komponenten für Items hinzufügen.
 - [ ] Dialogsystem hinzufügen.
 - [ ] Inventar hinzufügen.
+- [ ] Gravitation hinzufügen.
