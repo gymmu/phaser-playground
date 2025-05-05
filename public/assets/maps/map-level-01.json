@@ -229,6 +229,29 @@
                  "width":32,
                  "x":288,
                  "y":320
+                }, 
+                {
+                 "gid":2,
+                 "height":32,
+                 "id":12,
+                 "name":"Stone",
+                 "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"damageHp",
+                         "type":"int",
+                         "value":10
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":256,
+                 "y":288
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -271,10 +294,10 @@
          "y":0
         }],
  "nextlayerid":6,
- "nextobjectid":10,
+ "nextobjectid":13,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.11.0",
+ "tiledversion":"1.11.2",
  "tileheight":32,
  "tilesets":[
         {

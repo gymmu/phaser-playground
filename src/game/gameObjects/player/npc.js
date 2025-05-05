@@ -8,7 +8,7 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
   move = "left"
 
   constructor(scene, x, y) {
-    super(scene, x, y, "player")
+    super(scene, x, y, "npc")
     this.scene.add.existing(this)
     this.scene.physics.add.existing(this, false)
     this.body.collideWorldBounds = false
@@ -49,28 +49,28 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
 
     if (this.move === "left") {
       body.setVelocityX(-this.speed)
-      if (isIdle) this.anims.play("player_left", true)
+      if (isIdle) this.anims.play("npc_left", true)
       isIdle = false
     }
     if (this.move === "right") {
       this.body.setVelocityX(this.speed)
-      if (isIdle) this.anims.play("player_right", true)
+      if (isIdle) this.anims.play("npc_right", true)
       isIdle = false
     }
 
     if (this.move === "up") {
       body.setVelocityY(-this.speed)
-      if (isIdle) this.anims.play("player_up", true)
+      if (isIdle) this.anims.play("npc_up", true)
       isIdle = false
     }
     if (this.move === "down") {
       body.setVelocityY(this.speed)
-      if (isIdle) this.anims.play("player_down", true)
+      if (isIdle) this.anims.play("npc_down", true)
       isIdle = false
     }
 
     if (isIdle) {
-      this.anims.play("player_idle", true)
+      this.anims.play("npc_idle", true)
     }
   }
 
