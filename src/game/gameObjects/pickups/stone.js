@@ -7,5 +7,7 @@ export default class Stone extends StaticObject {
     this.setOrigin(0, 0)
     this.setSize(24, 24)
     this.setOffset(4, 6)
+
+    this.name = "stone"
   }
 }

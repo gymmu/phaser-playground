@@ -158,6 +158,7 @@ export default class Base2DScene extends Phaser.Scene {
    * @param {*} item Das Objekt mit dem der Spieler eine überschneitung hat.
    */
   pickUp(actor, item) {
+    actor.addItemToInventory(item)
     item.destroy()
   }
 

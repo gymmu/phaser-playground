@@ -6,6 +6,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   hp = 10
   maxHp = 100
   speed = 100
+  inventory = new Array(6).fill(null) // Inventar mit 6 Slots initialisieren
 
   constructor(scene, x, y) {
     super(scene, x, y, "player")
@@ -22,6 +23,42 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     // die Funktion aus, die beim Emitter von "update-hp" definiert wurde. So
     // können wir bequem über verschiedene Objekte kommunizieren.
     EVENTS.emit("update-hp", this.hp)
+  }
+
+  /**
+   * Füge ein Item zum Inventar hinzu.
+   *
+   * Das Item wird in den ersten freien Slot gelegt. Wenn das Inventar voll ist,
+   * wird das Item nicht hinzugefügt.
+   *
+   * @param {any} item Das Item, das hinzugefügt werden soll.
+   * @returns {boolean} Gibt zurück, ob das Hinzufügen erfolgreich war.
+   */
+  addItemToInventory(item) {
+    const index = this.inventory.indexOf(null)
+    if (index !== -1) {
+      this.inventory[index] = item
+      EVENTS.emit("update-inventory", this.inventory)
+      return true
+    }
+    return false
+  }
+
+  /**
+   * Entferne ein Item aus dem Inventar.
+   *
+   * Das Item wird aus dem angegebenen Slot entfernt.
+   *
+   * @param {number} index Der Index des Slots, aus dem das Item entfernt werden soll.
+   * @returns {any} Das entfernte Item oder null, wenn der Slot leer war.
+   */
+  removeItemFromInventory(index) {
+    if (index >= 0 && index < this.inventory.length) {
+      const item = this.inventory[index]
+      this.inventory[index] = null
+      return item
+    }
+    return null
   }
 
   /**

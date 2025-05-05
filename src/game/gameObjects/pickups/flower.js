@@ -7,5 +7,7 @@ export default class Flower extends StaticObject {
     this.setOrigin(0, 0)
     this.setSize(24, 32)
     this.setOffset(8, 0)
+
+    this.name = "flower"
   }
 }

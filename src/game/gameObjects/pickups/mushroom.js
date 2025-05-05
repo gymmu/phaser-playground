@@ -7,5 +7,7 @@ export default class Mushroom extends StaticObject {
     this.setOrigin(0, 0)
     this.setSize(16, 16)
     this.setOffset(16, 16)
+
+    this.name = "mushroom"
   }
 }
