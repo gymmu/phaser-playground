@@ -1,4 +1,5 @@
 import Phaser from "phaser"
+import { getRandomDirection } from "./utils.js"
 
 export default class NPC extends Phaser.Physics.Arcade.Sprite {
   hp = 10
@@ -80,21 +81,5 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     if (this.hp > this.maxHp) {
       this.hp = this.mapHp
     }
-  }
-}
-
-function getRandomDirection() {
-  const r = Math.floor(4 * Math.random())
-  switch (r) {
-    case 0:
-      return "left"
-    case 1:
-      return "right"
-    case 2:
-      return "up"
-    case 3:
-      return "down"
-    default:
-      return "idle"
   }
 }
