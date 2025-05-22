@@ -49,6 +49,7 @@ export default class Base2DScene extends Phaser.Scene {
     this.npcs = this.add.group()
 
     this.loadMap(mapKey)
+    this.createPlayer()
     this.createCamera()
     this.setupDefaultCollisions()
 
@@ -89,8 +90,15 @@ export default class Base2DScene extends Phaser.Scene {
 
     // Erstelle die Gegner
     this.createObjects(this.map, "SpawnPoints", "NPC", NPC, this.npcs)
+  }
 
-    // Spieler erstellen
+  /**
+   * Erstellt den Spieler-Charakter für die Szene.
+   *
+   * Diese Methode verwendet die importierte createPlayer-Funktion,
+   * um den Spieler zu erstellen und in der Szene zu platzieren.
+   */
+  createPlayer() {
     this.player = createPlayer(this, this.map)
   }
 
