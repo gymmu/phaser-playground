@@ -2,7 +2,7 @@ import Phaser from "phaser"
 import Mushroom from "../gameObjects/pickups/mushroom"
 import Flower from "../gameObjects/pickups/flower"
 import Cave from "../gameObjects/doors/cave"
-import Player from "../gameObjects/player/player"
+import { savePlayerState, createPlayer } from "../gameObjects/player/player"
 import NPC from "../gameObjects/player/npc"
 import Stone from "../gameObjects/pickups/stone"
 
@@ -47,6 +47,7 @@ export default class Base2DScene extends Phaser.Scene {
     this.items = this.add.group()
     this.doors = this.add.group()
     this.npcs = this.add.group()
+
     this.loadMap(mapKey)
     this.createCamera()
     this.setupDefaultCollisions()
@@ -89,13 +90,8 @@ export default class Base2DScene extends Phaser.Scene {
     // Erstelle die Gegner
     this.createObjects(this.map, "SpawnPoints", "NPC", NPC, this.npcs)
 
-    // Erstelle den Spieler
-    this.player = this.createSingleObject(
-      this.map,
-      "SpawnPoints",
-      "SpawnPlayer",
-      Player,
-    )
+    // Spieler erstellen
+    this.player = createPlayer(this, this.map)
   }
 
   createMapObjects() {
@@ -227,11 +223,15 @@ export default class Base2DScene extends Phaser.Scene {
     const { goToWorld, needKey } = door.props
     if (goToWorld == null) return
     if (needKey == null) {
+      // Vor dem Szenenwechsel Spielerstatus speichern
+      savePlayerState(this, this.player)
       this.scene.start(goToWorld)
       return
     }
 
     if (actor.keys[needKey] > 0) {
+      // Vor dem Szenenwechsel Spielerstatus speichern
+      savePlayerState(this, this.player)
       this.scene.start(goToWorld)
       return
     }

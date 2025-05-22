@@ -1,6 +1,89 @@
 import Phaser from "phaser"
 import EVENTS from "../../events"
 
+/**
+ * Speichert den Spielerstatus in der Registry.
+ *
+ * @param {Phaser.Scene} scene Die Szene, in der der Spieler gespeichert werden soll.
+ * @param {Player} player Der Spieler, dessen Status gespeichert werden soll.
+ */
+export function savePlayerState(scene, player) {
+  scene.registry.set("playerState", {
+    hp: player.hp,
+    maxHp: player.maxHp,
+    inventory: player.inventory,
+    keys: player.keys,
+    x: player.x,
+    y: player.y,
+  })
+}
+
+/**
+ * Lädt den Spielerstatus aus der Registry oder setzt Standardwerte.
+ *
+ * @param {Phaser.Scene} scene Die Szene, in der der Spieler geladen werden soll.
+ * @param {object} map Die Karte, aus der der Spawnpunkt geladen werden kann.
+ * @returns {object} Ein Objekt mit den Spielerdaten und Spawnkoordinaten.
+ */
+export function loadPlayerState(scene, map) {
+  // Spielerstatus aus Registry laden oder Standardwerte setzen
+  const savedPlayerState = scene.registry.get("playerState") || {
+    hp: 10,
+    maxHp: 100,
+    inventory: new Array(6).fill(null),
+    keys: {},
+    x: null,
+    y: null,
+  }
+
+  // Spieler an Spawnpunkt erstellen oder an gespeicherter Position
+  let spawnX = savedPlayerState.x
+  let spawnY = savedPlayerState.y
+
+  // Falls keine gespeicherte Position, Spawnpunkt aus Karte holen
+  if (spawnX == null || spawnY == null) {
+    const spawnPoint = map
+      ? map.findObject("SpawnPoints", (obj) => obj.name === "SpawnPlayer")
+      : null
+    if (spawnPoint) {
+      spawnX = spawnPoint.x
+      spawnY = spawnPoint.y
+    } else {
+      spawnX = 0
+      spawnY = 0
+    }
+  }
+
+  return {
+    playerState: savedPlayerState,
+    spawnX,
+    spawnY,
+  }
+}
+
+/**
+ * Erstellt einen Spieler in der angegebenen Szene und lädt seinen Status.
+ *
+ * @param {Phaser.Scene} scene Die Szene, in der der Spieler erstellt werden soll.
+ * @param {object} map Die Karte, aus der der Spawnpunkt geladen werden kann.
+ * @returns {Player} Der erstellte Spieler.
+ */
+export function createPlayer(scene, map) {
+  // Spielerstatus laden
+  const { playerState, spawnX, spawnY } = loadPlayerState(scene, map)
+
+  // Spieler erstellen
+  const player = new Player(scene, spawnX, spawnY)
+
+  // Spielerstatus setzen
+  player.hp = playerState.hp
+  player.maxHp = playerState.maxHp
+  player.inventory = playerState.inventory
+  player.keys = playerState.keys
+
+  return player
+}
+
 export default class Player extends Phaser.Physics.Arcade.Sprite {
   keys = {}
   hp = 10
