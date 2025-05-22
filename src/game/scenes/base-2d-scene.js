@@ -19,6 +19,7 @@ export default class Base2DScene extends Phaser.Scene {
   npcs = null
   player = null
   text = null
+  cameraMaskRadius = 80
 
   /**
    * Erstellt eine Instanz einer Phaser.Szene.
@@ -108,6 +109,26 @@ export default class Base2DScene extends Phaser.Scene {
   createCamera() {
     this.cameras.main.setSize(640, 480)
     this.cameras.main.startFollow(this.player)
+
+    this.setCameraMask()
+  }
+
+  setCameraMask() {
+    // Create a circular hole in the center of the screen
+    this.cameraMask = new Phaser.Geom.Circle(
+      this.cameras.main.width / 2,
+      this.cameras.main.height / 2,
+      this.cameraMaskRadius,
+    )
+
+    // Create a mask from the circle geometry
+    const maskShape = this.make.graphics()
+    maskShape.fillCircleShape(this.cameraMask)
+
+    const mask = maskShape.createGeometryMask()
+
+    // Invert the mask by applying it to the black rectangle
+    this.cameras.main.setMask(mask)
   }
 
   setupDefaultCollisions() {
@@ -160,6 +181,20 @@ export default class Base2DScene extends Phaser.Scene {
   pickUp(actor, item) {
     actor.addItemToInventory(item)
     item.destroy()
+
+    this.cameraMaskRadius += 40
+    this.setCameraMask()
+
+    // add a tween for 1 second that rotates the camera
+    this.tweens.add({
+      targets: this.cameras.main,
+      rotation: Math.PI * 2,
+      duration: 1000,
+      ease: "Power2",
+      onComplete: () => {
+        this.cameras.main.rotation = 0
+      },
+    })
   }
 
   /**
