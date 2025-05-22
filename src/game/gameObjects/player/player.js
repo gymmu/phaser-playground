@@ -6,6 +6,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   hp = 10
   maxHp = 100
   speed = 100
+  gotHit = false
   inventory = new Array(6).fill(null) // Inventar mit 6 Slots initialisieren
 
   constructor(scene, x, y) {
@@ -119,6 +120,15 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     if (isIdle) {
       this.anims.play("player_idle", true)
+    }
+
+    // Wenn der Spieler getroffen wurde, lasse ihn blinken
+    if (this.gotHit) {
+      // Setze die Farbe des Spielers auf rot
+      this.tint = 0xff0000
+    } else {
+      // Setze die Farbe des Spielers auf normal
+      this.tint = 0xffffff
     }
   }
 

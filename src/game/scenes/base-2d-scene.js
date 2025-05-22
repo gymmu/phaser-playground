@@ -20,7 +20,6 @@ export default class Base2DScene extends Phaser.Scene {
   player = null
   text = null
   cameraMaskRadius = 80
-
   /**
    * Erstellt eine Instanz einer Phaser.Szene.
    *
@@ -144,6 +143,13 @@ export default class Base2DScene extends Phaser.Scene {
     this.physics.add.collider(this.npcs, this.doors)
     this.physics.add.overlap(
       this.player,
+      this.npcs,
+      this.collideWithNPC,
+      () => true,
+      this,
+    )
+    this.physics.add.overlap(
+      this.player,
       this.items,
       this.pickUp,
       () => true,
@@ -157,6 +163,18 @@ export default class Base2DScene extends Phaser.Scene {
       () => true,
       this,
     )
+  }
+
+  collideWithNPC(player, npc) {
+    if (player == null) return
+    if (player.gotHit) return
+    player.gotHit = true
+    // Nach 1 sekunden wieder normal
+    this.time.delayedCall(1000, () => {
+      player.gotHit = false
+    })
+
+    this.player.damage(10)
   }
 
   npcCollideObstacles(npc, obstacle) {
