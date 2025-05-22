@@ -1,4 +1,5 @@
 import StaticObject from "../staticObject"
+import { registerGameObject } from "../registry"
 
 export default class Mushroom extends StaticObject {
   constructor(scene, x, y, properties) {
@@ -11,3 +12,6 @@ export default class Mushroom extends StaticObject {
     this.name = "mushroom"
   }
 }
+
+// Registriere das Mushroom-Objekt automatisch beim Import
+registerGameObject("Mushroom", Mushroom)

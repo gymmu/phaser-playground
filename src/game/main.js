@@ -1,5 +1,6 @@
 import Phaser from "phaser" // Importiert das Phaser-Framework, das für die Erstellung von Spielen verwendet wird.
 
+// Importiere Szenen
 import LoadingScene from "./scenes/loading-scene.js" // Importiert die Ladeszene des Spiels.
 import Level01 from "./scenes/levels/level-01.js" // Importiert Level 01 des Spiels.
 import Level02 from "./scenes/levels/level-02.js" // Importiert Level 02 des Spiels.
@@ -7,7 +8,8 @@ import Level03 from "./scenes/levels/level-03.js" // Importiert Level 03 des Spi
 import UIScene from "./scenes/ui-scene.js" // Importiert die Benutzeroberflächenszene des Spiels.
 import DebugScene from "./scenes/debug-scene.js" // Importiert die Debug-Szene des Spiels.
 
-const config = { // Konfigurationsobjekt für das Spiel.
+const config = {
+  // Konfigurationsobjekt für das Spiel.
   type: Phaser.AUTO, // Legt den Renderer-Typ fest, der automatisch zwischen WebGL und Canvas wechselt.
   scale: {
     mode: Phaser.Scale.FIT, // Skaliert das Spiel, um in den verfügbaren Raum zu passen.

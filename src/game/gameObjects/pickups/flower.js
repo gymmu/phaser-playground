@@ -1,4 +1,5 @@
 import StaticObject from "../staticObject"
+import { registerGameObject } from "../registry"
 
 export default class Flower extends StaticObject {
   constructor(scene, x, y, properties) {
@@ -11,3 +12,6 @@ export default class Flower extends StaticObject {
     this.name = "flower"
   }
 }
+
+// Registriere das Flower-Objekt automatisch beim Import
+registerGameObject("Flower", Flower)

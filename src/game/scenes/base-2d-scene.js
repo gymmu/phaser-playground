@@ -1,10 +1,14 @@
 import Phaser from "phaser"
-import Mushroom from "../gameObjects/pickups/mushroom"
-import Flower from "../gameObjects/pickups/flower"
 import Cave from "../gameObjects/doors/cave"
 import { savePlayerState, createPlayer } from "../gameObjects/player/player"
 import NPC from "../gameObjects/player/npc"
-import Stone from "../gameObjects/pickups/stone"
+import { getRegisteredGameObjects } from "../gameObjects/registry"
+
+// Importiere alle Spielobjekte, damit sie sich im Registry registrieren
+import "../gameObjects/pickups/mushroom"
+import "../gameObjects/pickups/flower"
+import "../gameObjects/pickups/stone"
+import "../gameObjects/pickups/bush"
 
 /**
  * Erweiterung einer Phaser.Scene mit praktischen Funktionen um Spielobjekte
@@ -49,7 +53,7 @@ export default class Base2DScene extends Phaser.Scene {
     this.npcs = this.add.group()
 
     this.loadMap(mapKey)
-    this.createPlayer()
+    this.createPlayerObject()
     this.createCamera()
     this.setupDefaultCollisions()
 
@@ -98,15 +102,22 @@ export default class Base2DScene extends Phaser.Scene {
    * Diese Methode verwendet die importierte createPlayer-Funktion,
    * um den Spieler zu erstellen und in der Szene zu platzieren.
    */
-  createPlayer() {
+  createPlayerObject() {
     this.player = createPlayer(this, this.map)
   }
 
   createMapObjects() {
-    this.createObjects(this.map, "Items", "Mushroom", Mushroom, this.items)
-    this.createObjects(this.map, "Items", "Flower", Flower, this.items)
-    this.createObjects(this.map, "Items", "Stone", Stone, this.items)
-    // TODO: Weitere Items hier hinzufügen
+    // Alle registrierten Objekte aus dem Registry erstellen
+    const registry = getRegisteredGameObjects()
+    registry.forEach((config, objectName) => {
+      this.createObjects(
+        this.map,
+        config.layer,
+        objectName,
+        config.class,
+        this.items,
+      )
+    })
   }
 
   createCamera() {
