@@ -23,7 +23,7 @@ export default class Base2DScene extends Phaser.Scene {
   npcs = null
   player = null
   text = null
-  cameraMaskRadius = 80
+  cameraMaskRadius = 120 // Vergrößerter Radius der Kamera-Maske
   /**
    * Erstellt eine Instanz einer Phaser.Szene.
    *

@@ -1,5 +1,6 @@
 {
   "name": "phaser-playground",
+  "homepage": "https://gymmu.github.io/phaser-playground",
   "version": "0.1.0",
   "description": "",
   "type": "module",
@@ -8,12 +9,16 @@
     "lint-fix": "prettier --write .",
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "clean": "rm -rf docs",
+    "predeploy": "vite build",
+    "deploy": "gh-pages -d docs"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "gh-pages": "^6.3.0",
     "prettier": "^3.0.3",
     "tile-extruder": "^2.1.0",
     "vite-node": "^3.0.8"

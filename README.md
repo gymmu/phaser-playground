@@ -71,11 +71,14 @@ Game-Engine [kaboom.js](https://kaboomjs.com/) verwendet.
 
 ## Veröffentlichen
 
-Das Spiel ist direkt über Github-Pages verfügbar. Das müssen Sie in den
-Einstellungen des Repositories aktivieren, und zwar müssen Sie dort auf
-Github-Actions umstellen, der Rest passiert dann automatisch. Eine neue Version
-der Webseite wird immer dann erstellt, wenn ein neuer `commit` auf dem `main`
-Branch gemacht wird, bzw. wenn ein `merge` in den `main` Branch gemacht wird.
+Wenn Sie Ihr Spiel veröffentlichen möchten, können Sie das ganz einfach mit dem
+Befehl `npm run deploy` machen. Der Befehl nimmt den aktuellen Stand von Ihrem
+Projekt, baut es, und kopiert es auf den Github-Server.
+
+**Achtung**: Der Befehl ist nicht direkt an eine Version gebunden. Am besten
+machen Sie vor diesem Befehl immer einen Commit, damit klar ist zu welcher
+Version das Spiel gehört. Es sollten keine ungespeicherten Dateien oder
+uncommitete Änderungen vorhanden sein.
 
 ## Arbeitsweise
 
