@@ -18,7 +18,7 @@ export default class UIScene extends Phaser.Scene {
    */
   updateInventory(inventory) {
     // Clear existing inventory display
-    this.children.list.forEach(child => {
+    this.children.list.forEach((child) => {
       if (child.isInventorySlot) {
         child.destroy()
       }
@@ -28,7 +28,8 @@ export default class UIScene extends Phaser.Scene {
     const slotWidth = 50
     const slotHeight = 50
     const slotSpacing = 10
-    const totalWidth = inventory.length * slotWidth + (inventory.length - 1) * slotSpacing
+    const totalWidth =
+      inventory.length * slotWidth + (inventory.length - 1) * slotSpacing
     const startX = (this.cameras.main.width - totalWidth) / 2
     const startY = this.cameras.main.height - slotHeight - 10
 
@@ -37,20 +38,22 @@ export default class UIScene extends Phaser.Scene {
       const y = startY
 
       // Create a rectangle to represent each inventory slot
-      const slot = this.add.rectangle(x, y, slotWidth, slotHeight, 0x666666)
+      const slot = this.add
+        .rectangle(x, y, slotWidth, slotHeight, 0x666666)
         .setOrigin(0, 0)
         .setStrokeStyle(2, 0xffffff)
-        .setData('item', item) // Store item data in the slot
+        .setData("item", item) // Store item data in the slot
       slot.isInventorySlot = true
       // Add image to display the item's graphics
-if (item && item.frame !== undefined) {
-    const itemImage = this.add.image(x + slotWidth / 2, y + slotHeight / 2, "pickups", item.name)
-      .setOrigin(0.5, 0.5)
-      .setDisplaySize(slotWidth - 10, slotHeight - 10) // Adjust size to fit within the slot
+      if (item && item.frame !== undefined) {
+        const itemImage = this.add
+          .image(x + slotWidth / 2, y + slotHeight / 2, "pickups", item.name)
+          .setOrigin(0.5, 0.5)
+          .setDisplaySize(slotWidth - 10, slotHeight - 10) // Adjust size to fit within the slot
 
-    // Associate the image with the slot for easy cleanup
-    slot.itemImage = itemImage
-  }
+        // Associate the image with the slot for easy cleanup
+        slot.itemImage = itemImage
+      }
     })
   }
 
@@ -71,7 +74,8 @@ if (item && item.frame !== undefined) {
       const y = startY
 
       // Create a rectangle to represent each inventory slot
-      this.add.rectangle(x, y, slotWidth, slotHeight, 0x666666)
+      this.add
+        .rectangle(x, y, slotWidth, slotHeight, 0x666666)
         .setOrigin(0, 0)
         .setStrokeStyle(2, 0xffffff)
     }
@@ -86,7 +90,11 @@ if (item && item.frame !== undefined) {
     this.createInventorySlots()
 
     // Create an emitter for inventory updates
-    const inventoryEmitter = EVENTS.on("update-inventory", this.updateInventory, this)
+    const inventoryEmitter = EVENTS.on(
+      "update-inventory",
+      this.updateInventory,
+      this,
+    )
 
     // Hiermit erstellen wir einen `Emitter`, der für die Kommunikation über
     // verschiedene Szenen verwendet werden kann.
