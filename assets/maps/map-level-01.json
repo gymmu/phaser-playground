@@ -273,7 +273,7 @@
                         {
                          "name":"goToWorld",
                          "type":"string",
-                         "value":"level-02"
+                         "value":"map-level-02"
                         }, 
                         {
                          "name":"needKey",
