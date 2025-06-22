@@ -67,15 +67,21 @@ export default class Base2DScene extends Phaser.Scene {
     this.physics.add.collider(
       this.projectilesGroup,
       this.obstacles,
-      (projectile) => {
-        if (projectile && projectile.destroy) projectile.destroy()
+      (projectile, obstacle) => {
+        if (projectile && projectile.destroy) {
+          projectile.destroy()
+          obstacle.destroy()
+        }
       },
     )
     this.physics.add.collider(
       this.projectilesGroup,
       this.npcs,
       (projectile, npc) => {
-        if (projectile && projectile.destroy) projectile.destroy()
+        if (projectile && projectile.destroy) {
+          projectile.destroy()
+          npc.damage(1)
+        }
         // Optionally: npc.damage(1)
       },
     )
@@ -317,6 +323,55 @@ export default class Base2DScene extends Phaser.Scene {
       this.npcs.children.entries.forEach((npc) => {
         npc.update()
       })
+    }
+  }
+
+  /**
+   * Set up colliders for a temporary interaction object with all relevant groups/layers.
+   * @param {Phaser.Physics.Arcade.Sprite} obj
+   */
+  setupInteractionObjectColliders(obj) {
+    if (!obj || !obj.body) return
+    // Collide with obstacles layer
+    if (this.obstacles) {
+      this.physics.add.collider(obj, this.obstacles)
+    }
+    // Collide with items
+    if (this.items) {
+      this.physics.add.collider(obj, this.items)
+      // Overlap: pick up stone
+      this.physics.add.overlap(
+        obj,
+        this.items,
+        (interactionObj, item) => {
+          // Only handle if item is a Stone
+          if (item && item.name === "stone" && this.player) {
+            // Add to inventory and remove from world
+            const added = this.player.addItemToInventory(item)
+            if (added) {
+              item.destroy()
+            }
+          }
+        },
+        null,
+        this,
+      )
+    }
+    // Collide with npcs
+    if (this.npcs) {
+      this.physics.add.collider(obj, this.npcs)
+    }
+    // Collide with doors
+    if (this.doors) {
+      this.physics.add.collider(obj, this.doors)
+    }
+    // Collide with player
+    if (this.player) {
+      this.physics.add.collider(obj, this.player)
+    }
+    // Collide with projectiles
+    if (this.projectilesGroup) {
+      this.physics.add.collider(obj, this.projectilesGroup)
     }
   }
 

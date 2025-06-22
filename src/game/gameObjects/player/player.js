@@ -79,6 +79,7 @@ export function createPlayer(scene, map) {
 }
 
 import Projectile from "../projectile"
+import InteractionObject from "../interactionObject"
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
   keys = {}
@@ -215,6 +216,26 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       this.dropFirstInventoryItem()
     }
     if (Phaser.Input.Keyboard.JustDown(interact)) {
+      // Spawn interaction object in front of the player
+      const offset = 24 // Distance in pixels in front of player
+      const dir = new Phaser.Math.Vector2(
+        this.lastDirection.x,
+        this.lastDirection.y,
+      )
+      const spawnX = this.x + dir.x * offset
+      const spawnY = this.y + dir.y * offset
+      const width = 24
+      const height = 24
+      const interactionObj = new InteractionObject(
+        this.scene,
+        spawnX,
+        spawnY,
+        width,
+        height,
+      )
+      if (this.scene && this.scene.setupInteractionObjectColliders) {
+        this.scene.setupInteractionObjectColliders(interactionObj)
+      }
     }
 
     // Fire projectile on spacebar press (only once per press)

@@ -8,6 +8,8 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
   #speed = 100
   stepsLeft = 60
   move = "left"
+  attackPower = 5
+  isInvulnerable = false
 
   constructor(scene, x, y) {
     super(scene, x, y, "npc")
@@ -74,6 +76,15 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     if (isIdle) {
       this.anims.play("npc_idle", true)
     }
+
+    // Wenn der Spieler getroffen wurde, lasse ihn blinken
+    if (this.isInvulnerable) {
+      // Setze die Farbe des Spielers auf rot
+      this.tint = 0xff0000
+    } else {
+      // Setze die Farbe des Spielers auf normal
+      this.tint = 0xffffff
+    }
   }
 
   heal(value) {
@@ -84,9 +95,24 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
+  damage(value) {
+    if (this.isInvulnerable) return
+
+    this.isInvulnerable = true
+    this.scene.time.delayedCall(1000, () => {
+      this.isInvulnerable = false
+    })
+
+    if (value == null) value = 0
+    this.hp = this.hp - value
+    if (this.hp <= 0) {
+      this.destroy()
+    }
+  }
+
   onCollide(actor) {
     if (actor instanceof Player) {
-      actor.damage(1)
+      actor.damage(this.attackPower)
     }
   }
 }
