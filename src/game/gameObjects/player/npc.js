@@ -1,5 +1,6 @@
 import Phaser from "phaser"
 import { getRandomDirection } from "./utils.js"
+import Player from "./player.js"
 
 export default class NPC extends Phaser.Physics.Arcade.Sprite {
   hp = 10
@@ -80,6 +81,12 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     this.hp = this.hp + value
     if (this.hp > this.maxHp) {
       this.hp = this.mapHp
+    }
+  }
+
+  onCollide(actor) {
+    if (actor instanceof Player) {
+      actor.damage(1)
     }
   }
 }

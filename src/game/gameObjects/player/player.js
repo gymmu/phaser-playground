@@ -10,11 +10,8 @@ import EVENTS from "../../events"
 export function savePlayerState(scene, player) {
   scene.registry.set("playerState", {
     hp: player.hp,
-    maxHp: player.maxHp,
     inventory: player.inventory,
     keys: player.keys,
-    x: player.x,
-    y: player.y,
   })
 }
 
@@ -29,29 +26,27 @@ export function loadPlayerState(scene, map) {
   // Spielerstatus aus Registry laden oder Standardwerte setzen
   const savedPlayerState = scene.registry.get("playerState") || {
     hp: 10,
-    maxHp: 100,
     inventory: new Array(6).fill(null),
     keys: {},
-    x: null,
-    y: null,
   }
 
   // Spieler an Spawnpunkt erstellen oder an gespeicherter Position
   let spawnX = savedPlayerState.x
   let spawnY = savedPlayerState.y
 
-  // Falls keine gespeicherte Position, Spawnpunkt aus Karte holen
-  if (spawnX == null || spawnY == null) {
-    const spawnPoint = map
-      ? map.findObject("SpawnPoints", (obj) => obj.name === "SpawnPlayer")
-      : null
-    if (spawnPoint) {
-      spawnX = spawnPoint.x
-      spawnY = spawnPoint.y
-    } else {
-      spawnX = 0
-      spawnY = 0
-    }
+  // Hole den SpawnPunkt aus der Karte
+  const spawnPoint = map.findObject(
+    "SpawnPoints",
+    (obj) => obj.name === "SpawnPlayer",
+  )
+
+  // Wenn kein SpawnPunkt gefunden wurde, setze den Spieler an (0, 0)
+  if (spawnPoint) {
+    spawnX = spawnPoint.x
+    spawnY = spawnPoint.y
+  } else {
+    spawnX = 0
+    spawnY = 0
   }
 
   return {
@@ -77,7 +72,6 @@ export function createPlayer(scene, map) {
 
   // Spielerstatus setzen
   player.hp = playerState.hp
-  player.maxHp = playerState.maxHp
   player.inventory = playerState.inventory
   player.keys = playerState.keys
 
@@ -93,7 +87,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   speed = 100
   gotHit = false
   inventory = new Array(6).fill(null) // Inventar mit 6 Slots initialisieren
-  lastDirection = { x: 1, y: 0 } // Default: right
+  lastDirection = { x: 0, y: 1 } // Default: down
 
   constructor(scene, x, y) {
     super(scene, x, y, "player")
@@ -173,17 +167,19 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   setControls() {
-    this.wasd = this.scene.input.keyboard.addKeys({
+    this.controller = this.scene.input.keyboard.addKeys({
       up: Phaser.Input.Keyboard.KeyCodes.W,
       left: Phaser.Input.Keyboard.KeyCodes.A,
       down: Phaser.Input.Keyboard.KeyCodes.S,
       right: Phaser.Input.Keyboard.KeyCodes.D,
       space: Phaser.Input.Keyboard.KeyCodes.SPACE,
+      drop: Phaser.Input.Keyboard.KeyCodes.Q,
+      interact: Phaser.Input.Keyboard.KeyCodes.E,
     })
   }
 
   update() {
-    const { left, right, up, down, space } = this.wasd
+    const { left, right, up, down, space, drop, interact } = this.controller
     let isIdle = true
 
     this.body.setVelocityX(0)
@@ -213,6 +209,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       if (isIdle) this.anims.play("player_down", true)
       this.lastDirection = { x: 0, y: 1 }
       isIdle = false
+    }
+
+    if (Phaser.Input.Keyboard.JustDown(drop)) {
+      this.dropFirstInventoryItem()
+    }
+    if (Phaser.Input.Keyboard.JustDown(interact)) {
     }
 
     // Fire projectile on spacebar press (only once per press)
@@ -282,10 +284,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     if (this.hp <= 0) {
       this.hp = 0
       // Get the key of the current scene
-      const sceneKey = this.scene.key
+      const levelKey = this.scene.mapKey
 
       // Restart the same scene again
-      this.scene.scene.start(sceneKey)
+      this.scene.scene.start("world", { map: levelKey })
     }
 
     // Gleich wie bei `heal()`
@@ -335,5 +337,25 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     if (this.keys[keyName] <= 0) {
       this.keys[keyName] = null
     }
+  }
+
+  /**
+   * Entfernt das erste Item aus dem Inventar und platziert es auf dem Boden.
+   */
+  dropFirstInventoryItem() {
+    // Finde das erste nicht-leere Item im Inventar
+    const index = this.inventory.findIndex((item) => item !== null)
+    if (index === -1) return // Kein Item zum Ablegen
+
+    const item = this.removeItemFromInventory(index)
+    if (!item) return
+
+    // Spielerposition
+    const { x, y } = this
+
+    // Neues Objekt der gleichen Klasse an Spielerposition erzeugen
+    const itemClass = item.constructor
+    const droppedItem = new itemClass(this.scene, x + 32, y, item.props || [])
+    this.scene.items.add(droppedItem)
   }
 }
