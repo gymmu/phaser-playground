@@ -11,9 +11,13 @@ export default class StaticObject extends Phaser.Physics.Arcade.Sprite {
     this.props = {}
 
     if (properties != null) {
-      properties.forEach((prop) => {
-        this.props[prop.name] = prop.value
-      })
+      if (properties instanceof Array) {
+        properties.forEach((prop) => {
+          this.props[prop.name] = prop.value
+        })
+      } else {
+        this.props = properties
+      }
     }
   }
 }

@@ -140,6 +140,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     if (index >= 0 && index < this.inventory.length) {
       const item = this.inventory[index]
       this.inventory[index] = null
+      EVENTS.emit("update-inventory", this.inventory)
       return item
     }
     return null
@@ -174,11 +175,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       left: Phaser.Input.Keyboard.KeyCodes.A,
       down: Phaser.Input.Keyboard.KeyCodes.S,
       right: Phaser.Input.Keyboard.KeyCodes.D,
+      space: Phaser.Input.Keyboard.KeyCodes.SPACE,
     })
   }
 
   update() {
-    const { left, right, up, down } = this.wasd
+    const { left, right, up, down, space } = this.wasd
     let isIdle = true
 
     this.body.setVelocityX(0)
@@ -204,6 +206,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       this.body.setVelocityY(this.speed)
       if (isIdle) this.anims.play("player_down", true)
       isIdle = false
+    }
+
+    if (space.isDown) {
+      // create a projectile object
     }
 
     if (isIdle) {

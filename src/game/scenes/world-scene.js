@@ -62,6 +62,11 @@ export default class Base2DScene extends Phaser.Scene {
     this.createCamera()
     this.setupDefaultCollisions()
 
+    // Key binding: Q zum Ablegen des ersten Inventar-Objekts
+    this.input.keyboard.on("keydown-Q", () => {
+      this.dropFirstInventoryItem()
+    })
+
     // In dieser Scene werden Lebenspunkte und andere Dinge angezeigt.
     this.scene.bringToTop("ui-scene")
 
@@ -300,6 +305,26 @@ export default class Base2DScene extends Phaser.Scene {
         npc.update()
       })
     }
+  }
+
+  /**
+   * Entfernt das erste Item aus dem Inventar und platziert es auf dem Boden.
+   */
+  dropFirstInventoryItem() {
+    // Finde das erste nicht-leere Item im Inventar
+    const index = this.player.inventory.findIndex((item) => item !== null)
+    if (index === -1) return // Kein Item zum Ablegen
+
+    const item = this.player.removeItemFromInventory(index)
+    if (!item) return
+
+    // Spielerposition
+    const { x, y } = this.player
+
+    // Neues Objekt der gleichen Klasse an Spielerposition erzeugen
+    const itemClass = item.constructor
+    const droppedItem = new itemClass(this, x + 32, y, item.props || [])
+    this.items.add(droppedItem)
   }
 
   /**
