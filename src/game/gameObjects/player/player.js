@@ -169,11 +169,16 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   setControls() {
-    this.cursor = this.scene.input.keyboard.createCursorKeys()
+    this.wasd = this.scene.input.keyboard.addKeys({
+      up: Phaser.Input.Keyboard.KeyCodes.W,
+      left: Phaser.Input.Keyboard.KeyCodes.A,
+      down: Phaser.Input.Keyboard.KeyCodes.S,
+      right: Phaser.Input.Keyboard.KeyCodes.D,
+    })
   }
 
   update() {
-    const { left, right, up, down } = this.cursor
+    const { left, right, up, down } = this.wasd
     let isIdle = true
 
     this.body.setVelocityX(0)
