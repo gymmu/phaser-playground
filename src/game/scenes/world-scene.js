@@ -9,6 +9,8 @@ import "../gameObjects/pickups/mushroom"
 import "../gameObjects/pickups/flower"
 import "../gameObjects/pickups/stone"
 import "../gameObjects/pickups/bush"
+import Flower from "../gameObjects/pickups/flower"
+import Mushroom from "../gameObjects/pickups/mushroom"
 
 /**
  * Erweiterung einer Phaser.Scene mit praktischen Funktionen um Spielobjekte
@@ -24,13 +26,16 @@ export default class Base2DScene extends Phaser.Scene {
   player = null
   text = null
   cameraMaskRadius = 120 // Vergrößerter Radius der Kamera-Maske
+  levelKey = ""
   /**
    * Erstellt eine Instanz einer Phaser.Szene.
-   *
-   * @param {*} options Optionen die an eine Szene übergeben werden können.
    */
-  constructor(options) {
-    super(options)
+  constructor() {
+    super({ key: "world" })
+  }
+
+  init(data) {
+    this.levelKey = `map-${data.level}`
   }
 
   /**
@@ -47,12 +52,12 @@ export default class Base2DScene extends Phaser.Scene {
    * Karte muss zuerst in der preload-Methode geladen werden, der Name der dort
    * verwendet wurde, muss auch hier verwendet werden.
    */
-  create(mapKey) {
+  create() {
     this.items = this.add.group()
     this.doors = this.add.group()
     this.npcs = this.add.group()
 
-    this.loadMap(mapKey)
+    this.loadMap(this.levelKey)
     this.createPlayerObject()
     this.createCamera()
     this.setupDefaultCollisions()
@@ -228,6 +233,36 @@ export default class Base2DScene extends Phaser.Scene {
         this.cameras.main.rotation = 0
       },
     })
+
+    // TODO: Hier wird die Logik für Kollisionen von Spielobjekten geändert. Das
+    // ist pro Level anders. Wenn eine Logik für alle Levels gelten soll, dann
+    // muss dies in `Base2DScene` angepasst werden.
+    if (item instanceof Flower) {
+      // Das Objekt ist von der Klasse `Flower`
+      this.player.addKey("level-02")
+      this.player.increaseSpeed(100)
+      this.player.heal(item.props.restoreHp || 0)
+    } else if (item instanceof Mushroom) {
+      // Das Objekt ist von der Klasse `Mushroom`
+      this.player.decreaseSpeed(100)
+      this.player.damage(item.props.damageHp || 0)
+
+      // TODO: Aktivieren Sie das hier, wenn ein Effekt über eine gewisse Zeit
+      // passieren soll.
+      // Hier wird der Spieler halb so gross, und mit jedem Frame wird er wieder
+      // normaler. Nach 3 Sekunden erreicht er seine normale Grösse.
+      // this.tweens.addCounter({
+      //   from: 0.5,
+      //   to: 1,
+      //   ease: "Linear",
+      //   duration: 3000,
+      //   repeat: 0,
+      //   onUpdate: (tween) => {
+      //     const val = tween.getValue()
+      //     this.player.setScale(val)
+      //   },
+      // })
+    }
   }
 
   /**
@@ -244,14 +279,15 @@ export default class Base2DScene extends Phaser.Scene {
     if (needKey == null) {
       // Vor dem Szenenwechsel Spielerstatus speichern
       savePlayerState(this, this.player)
-      this.scene.start(goToWorld)
+      console.log("Load new scene")
+      this.scene.start("world", { level: goToWorld })
       return
     }
 
     if (actor.keys[needKey] > 0) {
       // Vor dem Szenenwechsel Spielerstatus speichern
       savePlayerState(this, this.player)
-      this.scene.start(goToWorld)
+      this.scene.start("world", { level: goToWorld })
       return
     }
   }

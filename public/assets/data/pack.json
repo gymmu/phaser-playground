@@ -43,5 +43,25 @@
         "textureURL": "tileset.png"
       }
     ]
+  },
+  {
+    "path": "assets/maps",
+    "files": [
+      {
+        "type": "tilemapTiledJSON",
+        "key": "map-level-01",
+        "url": "map-level-01.json"
+      },
+      {
+        "type": "tilemapTiledJSON",
+        "key": "map-level-02",
+        "url": "map-level-02.json"
+      },
+      {
+        "type": "tilemapTiledJSON",
+        "key": "map-level-03",
+        "url": "map-level-03.json"
+      }
+    ]
   }
 ]
