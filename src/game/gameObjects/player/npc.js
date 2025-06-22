@@ -77,7 +77,7 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
       this.anims.play("npc_idle", true)
     }
 
-    // Wenn der Spieler getroffen wurde, lasse ihn blinken
+    // Wenn der NPC getroffen wurde, lasse ihn blinken
     if (this.isInvulnerable) {
       // Setze die Farbe des Spielers auf rot
       this.tint = 0xff0000
