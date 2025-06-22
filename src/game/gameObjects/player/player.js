@@ -1,5 +1,7 @@
 import Phaser from "phaser"
 import EVENTS from "../../events"
+import Projectile from "../projectile"
+import InteractionObject from "../interactionObject"
 
 /**
  * Speichert den Spielerstatus in der Registry.
@@ -77,9 +79,6 @@ export function createPlayer(scene, map) {
 
   return player
 }
-
-import Projectile from "../projectile"
-import InteractionObject from "../interactionObject"
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
   keys = {}
