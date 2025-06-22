@@ -56,11 +56,43 @@ export default class Base2DScene extends Phaser.Scene {
     this.items = this.add.group()
     this.doors = this.add.group()
     this.npcs = this.add.group()
+    this.projectilesGroup = this.add.group()
 
     this.loadMap(this.levelKey)
     this.createPlayerObject()
     this.createCamera()
     this.setupDefaultCollisions()
+
+    // Set up projectile collisions after map and objects are loaded
+    this.physics.add.collider(
+      this.projectilesGroup,
+      this.obstacles,
+      (projectile) => {
+        if (projectile && projectile.destroy) projectile.destroy()
+      },
+    )
+    this.physics.add.collider(
+      this.projectilesGroup,
+      this.npcs,
+      (projectile, npc) => {
+        if (projectile && projectile.destroy) projectile.destroy()
+        // Optionally: npc.damage(1)
+      },
+    )
+    this.physics.add.collider(
+      this.projectilesGroup,
+      this.items,
+      (projectile) => {
+        if (projectile && projectile.destroy) projectile.destroy()
+      },
+    )
+    this.physics.add.collider(
+      this.projectilesGroup,
+      this.doors,
+      (projectile) => {
+        if (projectile && projectile.destroy) projectile.destroy()
+      },
+    )
 
     // Key binding: Q zum Ablegen des ersten Inventar-Objekts
     this.input.keyboard.on("keydown-Q", () => {

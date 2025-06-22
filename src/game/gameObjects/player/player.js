@@ -84,6 +84,8 @@ export function createPlayer(scene, map) {
   return player
 }
 
+import Projectile from "../projectile"
+
 export default class Player extends Phaser.Physics.Arcade.Sprite {
   keys = {}
   hp = 10
@@ -91,6 +93,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   speed = 100
   gotHit = false
   inventory = new Array(6).fill(null) // Inventar mit 6 Slots initialisieren
+  lastDirection = { x: 1, y: 0 } // Default: right
 
   constructor(scene, x, y) {
     super(scene, x, y, "player")
@@ -189,27 +192,43 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     if (left.isDown) {
       this.body.setVelocityX(-this.speed)
       if (isIdle) this.anims.play("player_left", true)
+      this.lastDirection = { x: -1, y: 0 }
       isIdle = false
     }
     if (right.isDown) {
       this.body.setVelocityX(this.speed)
       if (isIdle) this.anims.play("player_right", true)
+      this.lastDirection = { x: 1, y: 0 }
       isIdle = false
     }
 
     if (up.isDown) {
       this.body.setVelocityY(-this.speed)
       if (isIdle) this.anims.play("player_up", true)
+      this.lastDirection = { x: 0, y: -1 }
       isIdle = false
     }
     if (down.isDown) {
       this.body.setVelocityY(this.speed)
       if (isIdle) this.anims.play("player_down", true)
+      this.lastDirection = { x: 0, y: 1 }
       isIdle = false
     }
 
-    if (space.isDown) {
-      // create a projectile object
+    // Fire projectile on spacebar press (only once per press)
+    if (Phaser.Input.Keyboard.JustDown(space)) {
+      const dir = new Phaser.Math.Vector2(
+        this.lastDirection.x,
+        this.lastDirection.y,
+      )
+      if (dir.lengthSq() > 0) {
+        const projectile = new Projectile(this.scene, this.x, this.y, dir)
+        // Optionally, add to a group for collision management
+        if (this.scene.projectilesGroup) {
+          this.scene.projectilesGroup.add(projectile)
+        }
+        // Set up collision in the scene as needed
+      }
     }
 
     if (isIdle) {
