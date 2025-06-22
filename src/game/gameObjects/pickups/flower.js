@@ -11,6 +11,12 @@ export default class Flower extends StaticObject {
 
     this.name = "flower"
   }
+
+  onCollide(player) {
+    //super.onCollide(player)
+    player.heal(this.props.healAmount || 5)
+    this.destroy()
+  }
 }
 
 // Registriere das Flower-Objekt automatisch beim Import

@@ -1,5 +1,6 @@
 import StaticObject from "../staticObject"
 import { registerGameObject } from "../registry"
+import Player from "../player/player"
 
 export default class Mushroom extends StaticObject {
   constructor(scene, x, y, properties) {
@@ -10,6 +11,16 @@ export default class Mushroom extends StaticObject {
     this.setOffset(16, 16)
 
     this.name = "mushroom"
+  }
+
+  onCollide(player) {
+    if (player instanceof Player) {
+      player.decreaseSpeed(50)
+      this.scene.time.delayedCall(1000, () => {
+        player.resetSpeed()
+      })
+      this.destroy()
+    }
   }
 }
 

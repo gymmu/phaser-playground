@@ -85,6 +85,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   hp = 10
   maxHp = 100
   speed = 100
+  baseSpeed = 100
   gotHit = false
   isAttacking = false
   attackSpeed = 1500
@@ -156,6 +157,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.speed = Math.min(this.speed + value, 960)
   }
 
+  resetSpeed() {
+    this.speed = this.baseSpeed
+  }
+
   /**
    * Vermindere die Geschwindigkeit des Spielers.
    *
@@ -165,7 +170,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
    * werden soll.
    */
   decreaseSpeed(value) {
-    this.speed = Math.max(100, this.speed - value)
+    this.speed = Math.max(50, this.speed - value)
   }
 
   setControls() {

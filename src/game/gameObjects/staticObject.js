@@ -21,4 +21,6 @@ export default class StaticObject extends Phaser.Physics.Arcade.Sprite {
       }
     }
   }
+
+  onCollide(player) {}
 }

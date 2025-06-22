@@ -80,21 +80,16 @@ export default class Base2DScene extends Phaser.Scene {
       (projectile, npc) => {
         if (projectile && projectile.destroy) {
           projectile.destroy()
-          npc.damage(1)
+          npc.damage(projectile.attackPower)
         }
-        // Optionally: npc.damage(1)
       },
     )
+    const mergedGroup = this.add.group()
+    mergedGroup.addMultiple(this.doors.getChildren())
+    mergedGroup.addMultiple(this.items.getChildren())
     this.physics.add.collider(
       this.projectilesGroup,
-      this.items,
-      (projectile) => {
-        if (projectile && projectile.destroy) projectile.destroy()
-      },
-    )
-    this.physics.add.collider(
-      this.projectilesGroup,
-      this.doors,
+      mergedGroup,
       (projectile) => {
         if (projectile && projectile.destroy) projectile.destroy()
       },
@@ -209,7 +204,7 @@ export default class Base2DScene extends Phaser.Scene {
     this.physics.add.overlap(
       this.player,
       this.items,
-      this.pickUp,
+      (player, item) => item.onCollide(player),
       () => true,
       this,
     )
@@ -238,69 +233,6 @@ export default class Base2DScene extends Phaser.Scene {
   npcCollideObstacles(npc, obstacle) {
     if (npc == null) return
     npc.move = "idle"
-  }
-
-  /**
-   * Diese Methode wird immer dann aufgerufen, wenn der Spieler eine
-   * überscheidung mit einem Spielobjekt hat, das aufgenommen werden kann. Wir
-   * können hier bestimmen was in einem solchen fall passieren sollte. Die
-   * Parameter werden von Phaser in die Methode eingefügt, da haben wir keine
-   * direkte kontrolle darüber.
-   *
-   * Um die Funktionalität dieser Methode zu ändern, muss Sie in der
-   * abgeleiteten Klasse überschrieben werden. Standartmässig wird einfach das
-   * Objekt zerstörrt, mit dem eine kollision stattfindet.
-   *
-   * @param {*} actor Der Spieler der mit dem Objekt überschneidet.
-   * @param {*} item Das Objekt mit dem der Spieler eine überschneitung hat.
-   */
-  pickUp(actor, item) {
-    actor.addItemToInventory(item)
-    item.destroy()
-
-    this.cameraMaskRadius += 40
-    this.setCameraMask()
-
-    // add a tween for 1 second that rotates the camera
-    this.tweens.add({
-      targets: this.cameras.main,
-      rotation: Math.PI * 2,
-      duration: 1000,
-      ease: "Power2",
-      onComplete: () => {
-        this.cameras.main.rotation = 0
-      },
-    })
-
-    // TODO: Hier wird die Logik für Kollisionen von Spielobjekten geändert. Das
-    // ist pro Level anders. Wenn eine Logik für alle Levels gelten soll, dann
-    // muss dies in `Base2DScene` angepasst werden.
-    if (item instanceof Flower) {
-      // Das Objekt ist von der Klasse `Flower`
-      this.player.addKey("level-02")
-      this.player.increaseSpeed(100)
-      this.player.heal(item.props.restoreHp || 0)
-    } else if (item instanceof Mushroom) {
-      // Das Objekt ist von der Klasse `Mushroom`
-      this.player.decreaseSpeed(100)
-      this.player.damage(item.props.damageHp || 0)
-
-      // TODO: Aktivieren Sie das hier, wenn ein Effekt über eine gewisse Zeit
-      // passieren soll.
-      // Hier wird der Spieler halb so gross, und mit jedem Frame wird er wieder
-      // normaler. Nach 3 Sekunden erreicht er seine normale Grösse.
-      // this.tweens.addCounter({
-      //   from: 0.5,
-      //   to: 1,
-      //   ease: "Linear",
-      //   duration: 3000,
-      //   repeat: 0,
-      //   onUpdate: (tween) => {
-      //     const val = tween.getValue()
-      //     this.player.setScale(val)
-      //   },
-      // })
-    }
   }
 
   /**

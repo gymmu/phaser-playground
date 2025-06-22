@@ -1,5 +1,6 @@
 import StaticObject from "../staticObject"
 import { registerGameObject } from "../registry"
+import Player from "../player/player"
 
 export default class Stone extends StaticObject {
   constructor(scene, x, y, properties) {
@@ -10,6 +11,13 @@ export default class Stone extends StaticObject {
     this.setOffset(4, 6)
 
     this.name = "stone"
+  }
+
+  onCollide(player) {
+    if (player instanceof Player) {
+      player.addItemToInventory(this)
+      this.destroy()
+    }
   }
 }
 
