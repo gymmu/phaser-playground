@@ -17,6 +17,7 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
     this.setOrigin(0.5, 0.5)
     this.setSize(24, 24)
     this.setOffset(4, 6)
+    this.setScale(0.5)
     this.body.setAllowGravity(false)
     this.body.setVelocity(direction.x * speed, direction.y * speed)
 
@@ -31,15 +32,9 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
 
     // Add collision with world layer or other objects in the scene as needed
     // This should be set up in the scene after creation
-  }
-
-  /**
-   * Call this to set up collision with a group or layer.
-   * @param {Phaser.GameObjects.Group|Phaser.Tilemaps.TilemapLayer} target
-   */
-  enableCollision(target) {
-    this.scene.physics.add.collider(this, target, () => {
-      this.destroy()
-    })
+    // Optionally, add to a group for collision management
+    if (this.scene.projectilesGroup) {
+      this.scene.projectilesGroup.add(this)
+    }
   }
 }

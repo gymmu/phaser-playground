@@ -87,6 +87,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   maxHp = 100
   speed = 100
   gotHit = false
+  isAttacking = false
+  attackSpeed = 1500
   inventory = new Array(6).fill(null) // Inventar mit 6 Slots initialisieren
   lastDirection = { x: 0, y: 1 } // Default: down
 
@@ -183,9 +185,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     const { left, right, up, down, space, drop, interact } = this.controller
     let isIdle = true
 
-    this.body.setVelocityX(0)
-    this.body.setVelocityY(0)
-
     if (left.isDown) {
       this.body.setVelocityX(-this.speed)
       if (isIdle) this.anims.play("player_left", true)
@@ -210,6 +209,20 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       if (isIdle) this.anims.play("player_down", true)
       this.lastDirection = { x: 0, y: 1 }
       isIdle = false
+    }
+    // Wenn keine Richtung gedrückt wurde, bleibt der Spieler stehen
+    if (isIdle) {
+      this.body.setVelocityX(0)
+      this.body.setVelocityY(0)
+      if (this.lastDirection.x === 1) {
+        this.anims.play("player_idle_right", true)
+      } else if (this.lastDirection.x === -1) {
+        this.anims.play("player_idle_left", true)
+      } else if (this.lastDirection.y === 1) {
+        this.anims.play("player_idle_down", true)
+      } else if (this.lastDirection.y === -1) {
+        this.anims.play("player_idle_up", true)
+      }
     }
 
     if (Phaser.Input.Keyboard.JustDown(drop)) {
@@ -240,22 +253,27 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     // Fire projectile on spacebar press (only once per press)
     if (Phaser.Input.Keyboard.JustDown(space)) {
+      // Prüfe ob der Spieler gerade am Angreifen ist, falls ja, mache nichts
+      if (this.isAttacking) return
+
+      // Der Spieler ist nicht am angreifen, also setzen wir ihn auf angreifend.
+      this.isAttacking = true
+
+      // Nach dem Cooldown setzen wir das wieder zurück
+      this.scene.time.delayedCall(this.attackSpeed, () => {
+        this.isAttacking = false
+      })
+
+      // Wir berechnen die Richtung in die der Spieler blickt
       const dir = new Phaser.Math.Vector2(
         this.lastDirection.x,
         this.lastDirection.y,
       )
-      if (dir.lengthSq() > 0) {
-        const projectile = new Projectile(this.scene, this.x, this.y, dir)
-        // Optionally, add to a group for collision management
-        if (this.scene.projectilesGroup) {
-          this.scene.projectilesGroup.add(projectile)
-        }
-        // Set up collision in the scene as needed
-      }
-    }
 
-    if (isIdle) {
-      this.anims.play("player_idle", true)
+      // Wenn die Richtung nicht 0 ist, dann erstellen wir ein Projectile
+      if (dir.lengthSq() > 0) {
+        new Projectile(this.scene, this.x, this.y, dir)
+      }
     }
 
     // Wenn der Spieler getroffen wurde, lasse ihn blinken
