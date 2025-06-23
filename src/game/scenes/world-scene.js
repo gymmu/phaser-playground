@@ -1,6 +1,6 @@
 import Phaser from "phaser"
 import Cave from "../gameObjects/doors/cave"
-import { savePlayerState, createPlayer } from "../gameObjects/player/player"
+import { createPlayer } from "../gameObjects/player/player"
 import NPC from "../gameObjects/player/npc"
 import { getRegisteredGameObjects } from "../gameObjects/registry"
 
@@ -52,6 +52,7 @@ export default class Base2DScene extends Phaser.Scene {
    */
   create() {
     this.items = this.add.group()
+    this.stones = this.add.group() // Neue Gruppe für Steine
     this.doors = this.add.group()
     this.npcs = this.add.group()
     this.projectilesGroup = this.add.group()
@@ -146,13 +147,24 @@ export default class Base2DScene extends Phaser.Scene {
     // Alle registrierten Objekte aus dem Registry erstellen
     const registry = getRegisteredGameObjects()
     registry.forEach((config, objectName) => {
-      this.createObjects(
-        this.map,
-        config.layer,
-        objectName,
-        config.class,
-        this.items,
-      )
+      // Steine in eigene Gruppe, Rest wie gehabt
+      if (objectName === "Stone") {
+        this.createObjects(
+          this.map,
+          config.layer,
+          objectName,
+          config.class,
+          this.stones,
+        )
+      } else {
+        this.createObjects(
+          this.map,
+          config.layer,
+          objectName,
+          config.class,
+          this.items,
+        )
+      }
     })
   }
 
@@ -184,6 +196,7 @@ export default class Base2DScene extends Phaser.Scene {
   setupDefaultCollisions() {
     this.obstacles.setCollisionByProperty({ collides: true })
     this.physics.add.collider(this.player, this.obstacles)
+    this.physics.add.collider(this.player, this.stones)
     this.physics.add.collider(
       this.npcs,
       this.obstacles,
@@ -262,27 +275,14 @@ export default class Base2DScene extends Phaser.Scene {
    */
   setupInteractionObjectColliders(obj) {
     if (!obj || !obj.body) return
-    // Collide with obstacles layer
-    if (this.obstacles) {
-      this.physics.add.collider(obj, this.obstacles)
-    }
     // Collide with items
     if (this.items) {
       this.physics.add.collider(obj, this.items)
       // Overlap: pick up stone
       this.physics.add.overlap(
         obj,
-        this.items,
-        (interactionObj, item) => {
-          // Only handle if item is a Stone
-          if (item && item.name === "stone" && this.player) {
-            // Add to inventory and remove from world
-            const added = this.player.addItemToInventory(item)
-            if (added) {
-              item.destroy()
-            }
-          }
-        },
+        this.stones,
+        (interactionObj, item) => item.interact(this.player),
         null,
         this,
       )

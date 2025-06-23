@@ -19,6 +19,13 @@ export default class Stone extends StaticObject {
       this.destroy()
     }
   }
+
+  interact(player) {
+    if (player && player instanceof Player) {
+      player.addItemToInventory(this)
+      this.destroy()
+    }
+  }
 }
 
 // Registriere das Stone-Objekt automatisch beim Import
