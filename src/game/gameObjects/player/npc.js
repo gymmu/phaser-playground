@@ -11,15 +11,24 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
   move = "left"
   attackPower = 5
   isInvulnerable = false
+  skin = "npc"
 
-  constructor(scene, x, y) {
-    super(scene, x, y, "npc")
+  constructor(scene, x, y, properties) {
+    // Extract skin property from properties array, fallback to "npc"
+    let skin = "npc"
+    if (Array.isArray(properties)) {
+      const found = properties.find((prop) => prop.name === "skin")
+      if (found && found.value) skin = found.value
+    }
+    super(scene, x, y, skin)
     this.scene.add.existing(this)
     this.scene.physics.add.existing(this, false)
     this.body.collideWorldBounds = false
     this.setOrigin(0.5, 0.5)
     this.setSize(24, 24, false)
     this.setOffset(4, 8)
+
+    this.skin = skin
 
     // HP bar component
     this.hpBar = new HpBar(this.scene, {
@@ -65,28 +74,28 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
 
     if (this.move === "left") {
       body.setVelocityX(-this.speed)
-      if (isIdle) this.anims.play("npc_left", true)
+      if (isIdle) this.anims.play(`${this.skin}_left`, true)
       isIdle = false
     }
     if (this.move === "right") {
       this.body.setVelocityX(this.speed)
-      if (isIdle) this.anims.play("npc_right", true)
+      if (isIdle) this.anims.play(`${this.skin}_right`, true)
       isIdle = false
     }
 
     if (this.move === "up") {
       body.setVelocityY(-this.speed)
-      if (isIdle) this.anims.play("npc_up", true)
+      if (isIdle) this.anims.play(`${this.skin}_up`, true)
       isIdle = false
     }
     if (this.move === "down") {
       body.setVelocityY(this.speed)
-      if (isIdle) this.anims.play("npc_down", true)
+      if (isIdle) this.anims.play(`${this.skin}_down`, true)
       isIdle = false
     }
 
     if (isIdle) {
-      this.anims.play("npc_idle", true)
+      this.anims.play(`${this.skin}_idle`, true)
     }
 
     // Wenn der NPC getroffen wurde, lasse ihn blinken
