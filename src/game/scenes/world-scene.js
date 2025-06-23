@@ -3,6 +3,7 @@ import Cave from "../gameObjects/doors/cave"
 import { createPlayer } from "../gameObjects/player/player"
 import NPC from "../gameObjects/player/npc"
 import { getRegisteredGameObjects } from "../gameObjects/registry"
+import { CameraManager } from "../camera"
 
 // Importiere alle Spielobjekte, damit sie sich im Registry registrieren
 import "../gameObjects/pickups/mushroom"
@@ -23,13 +24,13 @@ export default class Base2DScene extends Phaser.Scene {
   npcs = null
   player = null
   text = null
-  cameraMaskRadius = 120 // Vergrösserter Radius der Kamera-Maske
   mapKey = ""
   /**
    * Erstellt eine Instanz einer Phaser.Szene.
    */
   constructor() {
     super({ key: "world" })
+    this.cameraManager = new CameraManager(this)
   }
 
   init(data) {
@@ -59,7 +60,7 @@ export default class Base2DScene extends Phaser.Scene {
 
     this.loadMap(this.mapKey)
     this.createPlayerObject()
-    this.createCamera()
+    this.cameraManager.createCamera()
     this.setupDefaultCollisions()
 
     // Set up projectile collisions after map and objects are loaded
@@ -166,31 +167,6 @@ export default class Base2DScene extends Phaser.Scene {
         )
       }
     })
-  }
-
-  createCamera() {
-    this.cameras.main.setSize(640, 480)
-    this.cameras.main.startFollow(this.player)
-
-    this.setCameraMask()
-  }
-
-  setCameraMask() {
-    // Create a circular hole in the center of the screen
-    this.cameraMask = new Phaser.Geom.Circle(
-      this.cameras.main.width / 2,
-      this.cameras.main.height / 2,
-      this.cameraMaskRadius,
-    )
-
-    // Create a mask from the circle geometry
-    const maskShape = this.make.graphics()
-    maskShape.fillCircleShape(this.cameraMask)
-
-    const mask = maskShape.createGeometryMask()
-
-    // Invert the mask by applying it to the black rectangle
-    this.cameras.main.setMask(mask)
   }
 
   setupDefaultCollisions() {

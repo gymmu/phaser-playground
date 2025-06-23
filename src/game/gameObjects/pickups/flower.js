@@ -15,9 +15,12 @@ export default class Flower extends StaticObject {
   onCollide(player) {
     //super.onCollide(player)
     player.heal(this.props.healAmount || 5)
-    this.destroy()
 
-    this.scene.cameraMaskRadius += 50
+    if (this.scene.cameraManager) {
+      this.scene.cameraManager.cameraMaskRadius += 50
+      this.scene.cameraManager.setCameraMask()
+    }
+    this.destroy()
   }
 }
 
