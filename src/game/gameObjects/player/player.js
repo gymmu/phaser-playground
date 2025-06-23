@@ -2,6 +2,7 @@ import Phaser from "phaser"
 import EVENTS from "../../events"
 import Projectile from "../projectile"
 import InteractionObject from "../interactionObject"
+import HpBar from "../hpbar"
 
 /**
  * Speichert den Spielerstatus in der Registry.
@@ -89,6 +90,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   gotHit = false
   isAttacking = false
   attackSpeed = 1500
+  attackPower = 5
   inventory = new Array(6).fill(null) // Inventar mit 6 Slots initialisieren
   lastDirection = { x: 0, y: 1 } // Default: down
 
@@ -102,6 +104,17 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.setOffset(4, 8)
 
     this.setControls()
+
+    // HP bar component
+    this.hpBar = new HpBar(this.scene, {
+      width: 28,
+      height: 5,
+      offsetY: -20,
+      depth: 10,
+    })
+    this.hpBar.setMaxHp(this.maxHp)
+    this.hpBar.setHp(this.hp)
+    this.hpBar.setPosition(this.x, this.y - this.height / 2)
 
     // Hier schicken wir ein Ereignis los. Phaser schnappt das auf, und führt
     // die Funktion aus, die beim Emitter von "update-hp" definiert wurde. So
@@ -276,7 +289,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
       // Wenn die Richtung nicht 0 ist, dann erstellen wir ein Projectile
       if (dir.lengthSq() > 0) {
-        new Projectile(this.scene, this.x, this.y, dir)
+        new Projectile(this.scene, this.x, this.y, dir, 300, this.attackPower)
       }
     }
 
@@ -287,6 +300,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     } else {
       // Setze die Farbe des Spielers auf normal
       this.tint = 0xffffff
+    }
+
+    // Update HP bar position and value
+    if (this.hpBar) {
+      this.hpBar.setHp(this.hp)
+      this.hpBar.setMaxHp(this.maxHp)
+      this.hpBar.setPosition(this.x, this.y - this.height / 2)
     }
   }
 
@@ -306,6 +326,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       this.hp = this.maxHp
     }
 
+    // Update HP bar
+    if (this.hpBar) {
+      this.hpBar.setHp(this.hp)
+    }
     // Die Lebenspunkte des Spielers wurden verändert, also schicken wir das
     // Ereignis "update-hp" los. Das wird von einer anderen Szene aufgeschnappt,
     // und die Lebenspunkte werden angepasst. So können wir einfach mit einer
@@ -333,6 +357,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       this.scene.scene.start("world", { map: levelKey })
     }
 
+    // Update HP bar
+    if (this.hpBar) {
+      this.hpBar.setHp(this.hp)
+    }
     // Gleich wie bei `heal()`
     EVENTS.emit("update-hp", this.hp)
   }

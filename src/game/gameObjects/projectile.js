@@ -9,7 +9,7 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
    * @param {Phaser.Math.Vector2} direction - normalized direction vector
    * @param {number} speed
    */
-  constructor(scene, x, y, direction, speed = 300) {
+  constructor(scene, x, y, direction, speed = 300, attackPower = 5) {
     super(scene, x, y, "pickups", "stone")
     this.scene = scene
     scene.add.existing(this)
@@ -20,6 +20,8 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
     this.setScale(0.5)
     this.body.setAllowGravity(false)
     this.body.setVelocity(direction.x * speed, direction.y * speed)
+
+    this.attackPower = attackPower
 
     // Play stone sound effect when shot
     if (scene.sound) {

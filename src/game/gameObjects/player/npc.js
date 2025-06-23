@@ -1,6 +1,7 @@
 import Phaser from "phaser"
 import { getRandomDirection } from "./utils.js"
 import Player from "./player.js"
+import HpBar from "../hpbar"
 
 export default class NPC extends Phaser.Physics.Arcade.Sprite {
   hp = 10
@@ -19,6 +20,17 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     this.setOrigin(0.5, 0.5)
     this.setSize(24, 24, false)
     this.setOffset(4, 8)
+
+    // HP bar component
+    this.hpBar = new HpBar(this.scene, {
+      width: 28,
+      height: 5,
+      offsetY: -20,
+      depth: 10,
+    })
+    this.hpBar.setMaxHp(this.maxHp)
+    this.hpBar.setHp(this.hp)
+    this.hpBar.setPosition(this.x, this.y - this.height / 2)
   }
 
   /**
@@ -85,13 +97,24 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
       // Setze die Farbe des Spielers auf normal
       this.tint = 0xffffff
     }
+
+    // Update HP bar position and value
+    if (this.hpBar) {
+      this.hpBar.setHp(this.hp)
+      this.hpBar.setMaxHp(this.maxHp)
+      this.hpBar.setPosition(this.x, this.y - this.height / 2)
+    }
   }
 
   heal(value) {
     if (value == null) value = 0
     this.hp = this.hp + value
     if (this.hp > this.maxHp) {
-      this.hp = this.mapHp
+      this.hp = this.maxHp
+    }
+    // Update HP bar
+    if (this.hpBar) {
+      this.hpBar.setHp(this.hp)
     }
   }
 
@@ -106,7 +129,15 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     if (value == null) value = 0
     this.hp = this.hp - value
     if (this.hp <= 0) {
+      if (this.hpBar) {
+        this.hpBar.destroy()
+      }
       this.destroy()
+    } else {
+      // Update HP bar
+      if (this.hpBar) {
+        this.hpBar.setHp(this.hp)
+      }
     }
   }
 
@@ -114,5 +145,13 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     if (actor instanceof Player) {
       actor.damage(this.attackPower)
     }
+  }
+
+  destroy(fromScene) {
+    if (this.hpBar) {
+      this.hpBar.destroy()
+      this.hpBar = null
+    }
+    super.destroy(fromScene)
   }
 }
