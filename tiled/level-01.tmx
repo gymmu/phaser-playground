@@ -80,6 +80,7 @@
   <object id="6" name="Flower" gid="4" x="288" y="320" width="32" height="32">
    <properties>
     <property name="damageHp" type="int" value="20"/>
+    <property name="keyName" value="level-02"/>
     <property name="restoreHp" type="int" value="50"/>
    </properties>
   </object>
