@@ -9,8 +9,6 @@ import "../gameObjects/pickups/mushroom"
 import "../gameObjects/pickups/flower"
 import "../gameObjects/pickups/stone"
 import "../gameObjects/pickups/bush"
-import Flower from "../gameObjects/pickups/flower"
-import Mushroom from "../gameObjects/pickups/mushroom"
 
 /**
  * Erweiterung einer Phaser.Scene mit praktischen Funktionen um Spielobjekte
@@ -25,7 +23,7 @@ export default class Base2DScene extends Phaser.Scene {
   npcs = null
   player = null
   text = null
-  cameraMaskRadius = 120 // Vergrößerter Radius der Kamera-Maske
+  cameraMaskRadius = 120 // Vergrösserter Radius der Kamera-Maske
   mapKey = ""
   /**
    * Erstellt eine Instanz einer Phaser.Szene.

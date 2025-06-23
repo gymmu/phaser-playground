@@ -13,7 +13,7 @@ const config = {
     mode: Phaser.Scale.FIT, // Skaliert das Spiel, um in den verfügbaren Raum zu passen.
     autoCenter: Phaser.Scale.CENTER_BOTH, // Zentriert das Spiel horizontal und vertikal.
   },
-  width: 640, // Breite des Spielbereichs, sollte ein Vielfaches von 32 sein, da die Tilesets 32x32 Pixel groß sind.
+  width: 640, // Breite des Spielbereichs, sollte ein Vielfaches von 32 sein, da die Tilesets 32x32 Pixel gross sind.
   height: 480, // Höhe des Spielbereichs, ebenfalls ein Vielfaches von 32.
   parent: "game-canvas", // Die ID des HTML-Elements, in das das Spiel gerendert wird.
   scene: [LoadingScene, UIScene, DebugScene, Base2DScene], // Die Szenen, die im Spiel verwendet werden.
