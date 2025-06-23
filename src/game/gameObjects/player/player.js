@@ -399,6 +399,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     // Neues Objekt der gleichen Klasse an Spielerposition erzeugen
     const itemClass = item.constructor
     const droppedItem = new itemClass(this.scene, x + 32, y, item.props || [])
-    this.scene.items.add(droppedItem)
+    // Füge Stein zu stones-Gruppe hinzu, sonst zu items
+    if (itemClass.name === "Stone") {
+      this.scene.stones.add(droppedItem)
+    } else {
+      this.scene.items.add(droppedItem)
+    }
   }
 }
