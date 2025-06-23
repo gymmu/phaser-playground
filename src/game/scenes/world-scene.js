@@ -63,38 +63,6 @@ export default class Base2DScene extends Phaser.Scene {
     this.cameraManager.createCamera()
     this.setupDefaultCollisions()
 
-    // Set up projectile collisions after map and objects are loaded
-    this.physics.add.collider(
-      this.projectilesGroup,
-      this.obstacles,
-      (projectile, obstacle) => {
-        if (projectile && projectile.destroy) {
-          projectile.destroy()
-          obstacle.destroy()
-        }
-      },
-    )
-    this.physics.add.collider(
-      this.projectilesGroup,
-      this.npcs,
-      (projectile, npc) => {
-        if (projectile && projectile.destroy) {
-          projectile.destroy()
-          npc.damage(projectile.attackPower)
-        }
-      },
-    )
-    const mergedGroup = this.add.group()
-    mergedGroup.addMultiple(this.doors.getChildren())
-    mergedGroup.addMultiple(this.items.getChildren())
-    this.physics.add.collider(
-      this.projectilesGroup,
-      mergedGroup,
-      (projectile) => {
-        if (projectile && projectile.destroy) projectile.destroy()
-      },
-    )
-
     // In dieser Scene werden Lebenspunkte und andere Dinge angezeigt.
     this.scene.bringToTop("ui-scene")
 
@@ -173,6 +141,7 @@ export default class Base2DScene extends Phaser.Scene {
     this.obstacles.setCollisionByProperty({ collides: true })
     this.physics.add.collider(this.player, this.obstacles)
     this.physics.add.collider(this.player, this.stones)
+    this.physics.add.collider(this.npcs, this.stones)
     this.physics.add.collider(
       this.npcs,
       this.obstacles,
@@ -202,6 +171,39 @@ export default class Base2DScene extends Phaser.Scene {
       this.enterDoor,
       () => true,
       this,
+    )
+
+    // Set up projectile collisions after map and objects are loaded
+    this.physics.add.collider(
+      this.projectilesGroup,
+      this.obstacles,
+      (projectile, obstacle) => {
+        if (projectile && projectile.destroy) {
+          projectile.destroy()
+          obstacle.destroy()
+        }
+      },
+    )
+    this.physics.add.collider(
+      this.projectilesGroup,
+      this.npcs,
+      (projectile, npc) => {
+        if (projectile && projectile.destroy) {
+          projectile.destroy()
+          npc.damage(projectile.attackPower)
+        }
+      },
+    )
+    const mergedGroup = this.add.group()
+    mergedGroup.addMultiple(this.doors.getChildren())
+    mergedGroup.addMultiple(this.items.getChildren())
+    mergedGroup.addMultiple(this.stones.getChildren())
+    this.physics.add.collider(
+      this.projectilesGroup,
+      mergedGroup,
+      (projectile) => {
+        if (projectile && projectile.destroy) projectile.destroy()
+      },
     )
   }
 
