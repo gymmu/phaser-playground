@@ -1,10 +1,34 @@
 {
   "anims": [
     {
-      "key": "player_idle",
+      "key": "player_idle_down",
       "type": "frame",
       "defaultTextureKey": "player",
       "frames": [{ "frame": 1 }],
+      "frameRate": 10,
+      "repeat": -1
+    },
+    {
+      "key": "player_idle_up",
+      "type": "frame",
+      "defaultTextureKey": "player",
+      "frames": [{ "frame": 10 }],
+      "frameRate": 10,
+      "repeat": -1
+    },
+    {
+      "key": "player_idle_right",
+      "type": "frame",
+      "defaultTextureKey": "player",
+      "frames": [{ "frame": 7 }],
+      "frameRate": 10,
+      "repeat": -1
+    },
+    {
+      "key": "player_idle_left",
+      "type": "frame",
+      "defaultTextureKey": "player",
+      "frames": [{ "frame": 4 }],
       "frameRate": 10,
       "repeat": -1
     },

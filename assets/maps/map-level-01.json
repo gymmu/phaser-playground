@@ -219,6 +219,11 @@
                          "value":20
                         }, 
                         {
+                         "name":"keyName",
+                         "type":"string",
+                         "value":"level-02"
+                        }, 
+                        {
                          "name":"restoreHp",
                          "type":"int",
                          "value":50
