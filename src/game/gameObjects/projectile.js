@@ -21,6 +21,11 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
     this.body.setAllowGravity(false)
     this.body.setVelocity(direction.x * speed, direction.y * speed)
 
+    // Play stone sound effect when shot
+    if (scene.sound) {
+      scene.sound.play("stone")
+    }
+
     // Destroy projectile if it leaves the world bounds
     this.setCollideWorldBounds(true)
     this.body.onWorldBounds = true

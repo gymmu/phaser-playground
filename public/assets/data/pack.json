@@ -63,5 +63,15 @@
         "url": "map-level-03.json"
       }
     ]
+  },
+  {
+    "path": "assets/sfx",
+    "files": [
+      {
+        "type": "audio",
+        "key": "stone",
+        "url": "stone.wav"
+      }
+    ]
   }
 ]
