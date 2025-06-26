@@ -5,14 +5,16 @@
  * @returns {"left" | "right" | "up" | "down"} A random direction.
  */
 export function getRandomDirection() {
-  const r = Math.floor(4 * Math.random())
+  const r = Math.floor(5 * Math.random())
   if (r === 0) {
-    return "left"
+    return new Phaser.Math.Vector2(-1, 0)
   } else if (r === 1) {
-    return "right"
+    return new Phaser.Math.Vector2(1, 0)
   } else if (r === 2) {
-    return "up"
+    return new Phaser.Math.Vector2(0, -1)
+  } else if (r === 3) {
+    return new Phaser.Math.Vector2(0, 1)
   } else {
-    return "down"
+    return new Phaser.Math.Vector2(0, 0)
   }
 }
