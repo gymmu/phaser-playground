@@ -197,12 +197,25 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       interact: Phaser.Input.Keyboard.KeyCodes.E,
       action: Phaser.Input.Keyboard.KeyCodes.SHIFT,
       blink: Phaser.Input.Keyboard.KeyCodes.ENTER,
+      zoomIn: Phaser.Input.Keyboard.KeyCodes.F,
+      zoomOut: Phaser.Input.Keyboard.KeyCodes.R,
     })
   }
 
   update() {
-    const { left, right, up, down, space, drop, interact, action, blink } =
-      this.controller
+    const {
+      left,
+      right,
+      up,
+      down,
+      space,
+      drop,
+      interact,
+      action,
+      blink,
+      zoomIn,
+      zoomOut,
+    } = this.controller
     let isIdle = true
 
     if (left.isDown) {
@@ -251,6 +264,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     if (Phaser.Input.Keyboard.JustDown(action)) {
       this.makeAction()
+    }
+
+    if (Phaser.Input.Keyboard.JustDown(zoomIn)) {
+      this.scene.cameraManager.zoomIn()
+    }
+    if (Phaser.Input.Keyboard.JustDown(zoomOut)) {
+      this.scene.cameraManager.zoomOut()
     }
     if (Phaser.Input.Keyboard.JustDown(drop)) {
       this.dropFirstInventoryItem()

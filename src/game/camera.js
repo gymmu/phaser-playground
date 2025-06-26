@@ -36,4 +36,17 @@ export class CameraManager {
   shakeCamera() {
     this.scene.cameras.main.shake(200, 0.01)
   }
+
+  zoomIn() {
+    this.scene.cameras.main.zoom += 0.5
+    if (this.scene.cameras.main.zoom > 4) {
+      this.scene.cameras.main.zoom = 4
+    }
+  }
+  zoomOut() {
+    this.scene.cameras.main.zoom -= 0.5
+    if (this.scene.cameras.main.zoom < 0.5) {
+      this.scene.cameras.main.zoom = 0.5
+    }
+  }
 }
