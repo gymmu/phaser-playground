@@ -92,7 +92,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   attackSpeed = 1500
   attackPower = 5
   inventory = new Array(6).fill(null) // Inventar mit 6 Slots initialisieren
-  lastDirection = { x: 0, y: 1 } // Default: down
+  lastDirection = new Phaser.Math.Vector2(0, 1) // Default: down
 
   constructor(scene, x, y) {
     super(scene, x, y, "player")
@@ -196,11 +196,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       drop: Phaser.Input.Keyboard.KeyCodes.Q,
       interact: Phaser.Input.Keyboard.KeyCodes.E,
       action: Phaser.Input.Keyboard.KeyCodes.SHIFT,
+      blink: Phaser.Input.Keyboard.KeyCodes.ENTER,
     })
   }
 
   update() {
-    const { left, right, up, down, space, drop, interact, action } =
+    const { left, right, up, down, space, drop, interact, action, blink } =
       this.controller
     let isIdle = true
 
@@ -242,6 +243,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       } else if (this.lastDirection.y === -1) {
         this.anims.play("player_idle_up", true)
       }
+    }
+
+    if (Phaser.Input.Keyboard.JustDown(blink)) {
+      this.blink()
     }
 
     if (Phaser.Input.Keyboard.JustDown(action)) {
@@ -445,5 +450,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       const dist = Math.abs(this.x - npc.x) + Math.abs(this.y - npc.y)
       if (dist < 128) npc.turn()
     })
+  }
+
+  blink() {
+    const { x, y } = new Phaser.Math.Vector2(this.lastDirection)
+      .normalize()
+      .scale(64)
+    this.body.x += x
+    this.body.y += y
   }
 }
