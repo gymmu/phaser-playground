@@ -456,7 +456,29 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     const { x, y } = new Phaser.Math.Vector2(this.lastDirection)
       .normalize()
       .scale(64)
-    this.body.x += x
-    this.body.y += y
+
+    // Calculate intended destination
+    const destX = this.body.x + x
+    const destY = this.body.y + y
+
+    // Check for obstacle at destination
+    if (this.scene && this.scene.obstacles && this.scene.map) {
+      // Convert pixel position to tile coordinates
+      const tileX = this.scene.map.worldToTileX(destX + this.width / 2)
+      const tileY = this.scene.map.worldToTileY(destY + this.height / 2)
+
+      // Get the tile from the "Obstacles" layer
+      const tile = this.scene.obstacles.getTileAt(tileX, tileY)
+
+      // If the tile exists and is colliding, do not blink
+      if (tile && tile.properties && tile.properties.collides) {
+        // Optionally, play a sound or animation to indicate blocked blink
+        return
+      }
+    }
+
+    // No obstacle, perform blink
+    this.body.x = destX
+    this.body.y = destY
   }
 }
