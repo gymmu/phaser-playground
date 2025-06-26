@@ -32,4 +32,8 @@ export class CameraManager {
     // Invert the mask by applying it to the black rectangle
     this.scene.cameras.main.setMask(mask)
   }
+
+  shakeCamera() {
+    this.scene.cameras.main.shake(200, 0.01)
+  }
 }

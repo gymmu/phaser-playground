@@ -87,7 +87,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   maxHp = 100
   speed = 100
   baseSpeed = 100
-  gotHit = false
+  isInvulnerable = false
   isAttacking = false
   attackSpeed = 1500
   attackPower = 5
@@ -304,7 +304,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     // Wenn der Spieler getroffen wurde, lasse ihn blinken
-    if (this.gotHit) {
+    if (this.isInvulnerable) {
       // Setze die Farbe des Spielers auf rot
       this.tint = 0xff0000
     } else {
@@ -356,6 +356,15 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
    * @param {integer} value Der Schaden der dem Spieler zugefügt werden soll.
    */
   damage(value) {
+    if (this.isInvulnerable) return
+
+    this.scene.cameraManager.shakeCamera()
+
+    this.isInvulnerable = true
+    this.scene.time.delayedCall(500, () => {
+      this.isInvulnerable = false
+    })
+
     if (value == null) value = 0
     this.hp = this.hp - value
     if (this.hp <= 0) {
