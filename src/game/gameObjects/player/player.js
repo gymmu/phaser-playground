@@ -195,11 +195,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       space: Phaser.Input.Keyboard.KeyCodes.SPACE,
       drop: Phaser.Input.Keyboard.KeyCodes.Q,
       interact: Phaser.Input.Keyboard.KeyCodes.E,
+      action: Phaser.Input.Keyboard.KeyCodes.SHIFT,
     })
   }
 
   update() {
-    const { left, right, up, down, space, drop, interact } = this.controller
+    const { left, right, up, down, space, drop, interact, action } =
+      this.controller
     let isIdle = true
 
     if (left.isDown) {
@@ -242,6 +244,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       }
     }
 
+    if (Phaser.Input.Keyboard.JustDown(action)) {
+      this.makeAction()
+    }
     if (Phaser.Input.Keyboard.JustDown(drop)) {
       this.dropFirstInventoryItem()
     }
@@ -433,5 +438,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     } else {
       this.scene.items.add(droppedItem)
     }
+  }
+
+  makeAction() {
+    this.scene.npcs.children.entries.forEach((npc) => {
+      const dist = Math.abs(this.x - npc.x) + Math.abs(this.y - npc.y)
+      if (dist < 128) npc.turn()
+    })
   }
 }

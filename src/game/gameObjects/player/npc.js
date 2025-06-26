@@ -141,6 +141,16 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
+  turn() {
+    this.dir = new Phaser.Math.Vector2(
+      this.scene.player.x - this.x,
+      this.scene.player.y - this.y,
+    )
+      .normalize()
+      .scale(this.speed * -0.5)
+    this.stepsLeft = 120
+  }
+
   heal(value) {
     if (value == null) value = 0
     this.hp = this.hp + value
