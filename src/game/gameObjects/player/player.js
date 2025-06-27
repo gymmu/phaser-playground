@@ -487,8 +487,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       .scale(64)
 
     // Calculate intended destination
-    const destX = this.body.x + x
-    const destY = this.body.y + y
+    const destX = this.x + x
+    const destY = this.y + y
 
     // Check for obstacle at destination
     if (this.scene && this.scene.obstacles && this.scene.map) {
@@ -506,8 +506,21 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       }
     }
 
-    // No obstacle, perform blink
-    this.body.x = destX
-    this.body.y = destY
+    // Fade out, move, then fade in
+    this.scene.tweens.add({
+      targets: this,
+      alpha: 0,
+      duration: 250,
+      onComplete: () => {
+        //this.setPosition(destX, destY)
+        this.x = destX
+        this.y = destY
+        this.scene.tweens.add({
+          targets: this,
+          alpha: 1,
+          duration: 250,
+        })
+      },
+    })
   }
 }

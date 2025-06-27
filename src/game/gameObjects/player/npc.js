@@ -28,6 +28,8 @@ export default class NPC extends Phaser.Physics.Arcade.Sprite {
     this.setSize(24, 24, false)
     this.setOffset(4, 8)
 
+    this.speed = 100
+
     this.skin = skin
 
     // HP bar component

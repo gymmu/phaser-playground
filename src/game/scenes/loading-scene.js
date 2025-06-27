@@ -25,9 +25,19 @@ export default class LoadingScene extends Phaser.Scene {
   }
 
   create() {
-    this.add
+    const text = this.add
       .text(320, 240, "Press SPACE to start the Game.")
       .setOrigin(0.5, 0.5)
+
+    this.tweens.add({
+      targets: text,
+      y: 200,
+      scale: 1.2,
+      duration: 500,
+      ease: "Power2",
+      yoyo: true,
+      loop: -1,
+    })
   }
 
   update() {
